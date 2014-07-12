@@ -50,9 +50,8 @@ angular.module('MashAcademy')
         link: function (scope, element, attrs) {
             element[0].addEventListener('dragstart', function () {
                 console.log('dragstart');
-				scope.$apply(function() {
-					scope.handleDragStart.apply(this, arguments);
-				});
+                scope.handleDragStart.apply(this, arguments);
+                scope.$apply();
             }, false);
             element[0].addEventListener('dragend', function () {
                 console.log('dragend');
