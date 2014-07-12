@@ -1,5 +1,7 @@
 angular.module('MashAcademy')
-.controller('DataCtrl', function ($scope, $http, $timeout) {
+.controller('DataCtrl', function ($scope, $http, $timeout, dataService) {
+    dataService.getRainfall();
+    dataService.getSolar().then(function (data) { $scope.datasets = data;});
 
     $scope.temperatures = {
         "Perth": [
@@ -67,7 +69,9 @@ angular.module('MashAcademy')
         '94029': 'Hobart'
     };
 
+    var dataset = {};
     var rainfall;
+    var solar;
 
     return {
         getRainfall: function () {
@@ -91,7 +95,7 @@ angular.module('MashAcademy')
                     return !isNaN(msecs);
                 });
                 
-                var result = {};
+                var result = dataset;
                 records.forEach(function (row) {
                     var date = new Date(row[year], row[month], row[day]);
                     var msecs = date.getTime();
@@ -108,6 +112,54 @@ angular.module('MashAcademy')
                 return result;
             });
         },
+        getSolar: function () {
+            return solar = solar || $http.get('Data/TotalSolar.csv').then(function (response) {
+                return response.data;
+            }).then(function (csvString) {
+                var records = csvString.split('\n');
+                var fields = records.shift().split(',');
 
+                var name = 0;
+                var year = 1;
+                var month = 2;
+                var day = 3;
+                var sunny = 5;
+
+                records = records.map(function (row) { return row.split(','); });
+                records = records.filter(function (row) {
+                    return row[sunny] && (row[sunny].indexOf("TRUE") >= 0 || row[sunny].indexOf("FALSE") >= 0);
+                });
+                records = records.filter(function (row) {
+                    var date = new Date(row[year], row[month], row[day]);
+                    var msecs = date.getTime();
+                    return !isNaN(msecs);
+                });
+
+                var result = dataset;
+                records.forEach(function (row) {
+                    var date = new Date(row[year], row[month], row[day]);
+                    var msecs = date.getTime();
+
+                    result[msecs] = result[msecs] || {};
+                    var datum = result[msecs];
+
+                    datum.Weather = datum.Weather || {};
+
+                    // Chained promises means datum.Rainfall is defined.
+                    var rainyLocations = datum.Rainfall || {};
+                    var weatherLocations = datum.Weather;
+                    var location = nameMap[row[name]];
+
+                    if (datum.Rainfall[location] > 2) {
+                        weatherLocations[location] = "Rainy";
+                    } else {
+                        weatherLocations[location] = row[sunny].indexOf("TRUE") >= 0 ? "Sunny" : "Cloudy";
+                    }
+                });
+
+                return result;
+
+            });
+        }
     }
 });
