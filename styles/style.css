@@ -1,0 +1,49 @@
+body {
+	background: #293B47;
+	font-family: 'Open Sans', sans-serif;
+}
+
+.top-pane {
+	width:100%;
+	height:10%;
+	float:left;
+	text-align:center;
+	color:white;
+	font-size:24px;
+}
+
+.left-pane {
+	width:20%;
+	height:75%;
+	float:left;
+	background: #5F7A87;
+}
+
+.right-pane {
+	width:80%;
+	height:75%;
+	float:left;
+	background: #5F7A87;
+}
+
+.bottom-pane {
+	width:100%;
+	height:15%;
+	float:left;
+}
+
+.back-button {
+	float:left;
+	height:70%;
+	width:200px;
+	margin:15px 50px;
+	background: #CBFF48;
+}
+
+.next-button {
+	float:right;
+	height:70%;
+	width:200px;
+	margin:15px 50px;
+	background: #CBFF48;
+}
