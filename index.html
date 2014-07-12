@@ -6,6 +6,8 @@
 		<script src="lib/angular.js"></script>
 		<script src="lib/d3.js"></script>
 		<script src="lib/topojson.js"></script>
+        <script src="lib/angular-touch.js"></script>
+        <script src="lib/angular-slider.js"></script>
 		<script src="scripts/app.js"></script>
 		<script src="scripts/map.js"></script>
         <script src="scripts/toolbox.js"></script>
@@ -23,10 +25,11 @@
 		</table>
 		<div class="left-pane">
 		    <toolbox></toolbox>
-            <selected></selected>
+            <selected></selecte>d
 		</div>
 		<div class="right-pane">
-			<map></map>
+			<div ng-style="{ height: hasControl('Time') ? '80%' : '100%' }"><map ng-if="hasControl('Map')"></map></div>
+            <slider ng-if="hasControl('Time')" floor="20" ceiling="100" step="20" ng-model="sliderValue"></slider>
 		</div>
 		<!-- Sorry, I only had time to do HTML table layout :) -->
 		<table class="bottom-pane">
