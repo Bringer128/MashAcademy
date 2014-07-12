@@ -15,10 +15,14 @@
 		<link rel="stylesheet" href="styles/style.css">
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	</head>
-	<body ng-app="MashAcademy">
-		<div class="top-pane">
-		Mash Academy
-		</div>
+	<body ng-app="MashAcademy" ng-controller="MashAcademy">
+		<table class="top-pane">
+			<tr>
+				<td>
+					<div class="title"><img src="content/mash-academy.svg" /></div>
+				</td>
+			</tr>
+		</table>
 		<div class="left-pane">
 		    <toolbox></toolbox>
             <selected></selected>
@@ -27,14 +31,33 @@
 			<div ng-style="{ height: hasControl('Time') ? '80%' : '100%' }"><map ng-if="hasControl('Map')"></map></div>
             <slider ng-if="hasControl('Time')" floor="20" ceiling="100" step="20" ng-model="sliderValue"></slider>
 		</div>
-		<div class="bottom-pane">
-			<div class="back-button">Back</div>
-			<div class="question-answer-area">
-				<p>What was the temperature in Darwin on 25th April 2014?</p>
-				<div class="answer-area"><input type="text" value="" /></div>
-				<div class="result-area"></div>
-			</div>
-			<div class="next-button">Next</div>
-		</div>
+		<!-- Sorry, I only had time to do HTML table layout :) -->
+		<table class="bottom-pane">
+			<tr>
+				<td class="back-button-cell">
+					<table class="back-button selectionoff"><tr><td>◄ Back</td></tr></table>
+				</td>
+				<td class="bottom-center-cell">
+					<div class="question-answer-area">
+						<div class="">
+							<p class="question">What was the temperature in Darwin on 25th April 2014?</p>
+							<div class="answer-area">
+								<input class="answer-text-box" type="text" value="" placeholder="Type answer here" style="width:350px;" />
+								<button class="answer-button selectionoff">Check</button>
+								<!--<table class="error-area">
+									<tr>
+										<td>Sorry, that's not right. Try again!</td>
+									</tr>
+								</table>-->
+							</div>
+						</div>
+					</div>
+					<!--<div class="answer-error-area"></div>-->
+				</td>
+				<td class="next-button-cell">
+					<table class="next-button selectionoff"><tr><td>Next ►</td></tr></table>
+				</td>
+			</tr>
+		</table>
 	</body>
 </html>
