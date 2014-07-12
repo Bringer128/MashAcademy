@@ -8,6 +8,7 @@
 		<script src="lib/topojson.js"></script>
         <script src="lib/angular-touch.js"></script>
         <script src="lib/angular-slider.js"></script>
+        <script src="lib/moment.js"></script>
 		<script src="scripts/app.js"></script>
 		<script src="scripts/map.js"></script>
         <script src="scripts/toolbox.js"></script>
@@ -30,7 +31,7 @@
 		</div>
 		<div class="right-pane" ng-controller="DataCtrl">
 			<div ng-style="{ height: hasControl('Time') ? '80%' : '100%' }"><map ng-if="hasControl('Map')"></map></div>
-            <slider ng-if="hasControl('Time')" floor="minTime" ceiling="maxTime" step="86400000" ng-model="sliderValue"></slider>
+            <slider ng-if="hasControl('Time')" floor="{{minTime}}" ceiling="{{maxTime}}" step="86400000" ng-model="sliderValue" translate-fn="toDate"></slider>
 		</div>
 		<!-- Sorry, I only had time to do HTML table layout :) -->
 		<table class="bottom-pane">

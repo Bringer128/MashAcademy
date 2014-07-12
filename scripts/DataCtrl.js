@@ -40,4 +40,10 @@ angular.module('MashAcademy')
     function dateToMSecs(date) {
         return date.getTime();
     }
+
+    $scope.toDate = function (msecs) {
+        var date = new Date();
+        date.setTime(msecs);
+        return moment(date).format("YYYY MMM DD");
+    };
 });
