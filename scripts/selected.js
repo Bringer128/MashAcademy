@@ -42,6 +42,14 @@ angular.module('MashAcademy')
                 e.dataTransfer.dropEffect = 'move';  // See the section on the DataTransfer object.
                 return false;
             };
+
+            $scope.remove = function (thing) {
+                var arrays = [$scope.selectedData, $scope.selectedComponents];
+                arrays.forEach(function (arr) {
+                    var idx = arr.indexOf(thing);
+                    if(idx >= 0) arr.splice(idx, 1);
+                });
+            }
         }
     };
 }]);

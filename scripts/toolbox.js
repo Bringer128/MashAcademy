@@ -10,11 +10,11 @@ angular.module('MashAcademy')
 
 	    ];
 	    $scope.data = [{
-	        name: 'weather',
+	        name: 'Weather',
 	        icon: 'content/sun-clouds.png',
             type: 'dataset'
 	    }, {
-	        name: 'temperature',
+	        name: 'Temperature',
 	        icon: 'content/degrees.gif',
             type: 'dataset'
 	    }];
