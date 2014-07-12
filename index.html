@@ -12,6 +12,7 @@
 		<script src="scripts/map.js"></script>
         <script src="scripts/toolbox.js"></script>
         <script src="scripts/selected.js"></script>
+        <script src="scripts/DataCtrl.js"></script>
 		<link rel="stylesheet" href="styles/style.css">
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	</head>
@@ -27,9 +28,9 @@
 		    <toolbox></toolbox>
             <selected></selected>
 		</div>
-		<div class="right-pane">
+		<div class="right-pane" ng-controller="DataCtrl">
 			<div ng-style="{ height: hasControl('Time') ? '80%' : '100%' }"><map ng-if="hasControl('Map')"></map></div>
-            <slider ng-if="hasControl('Time')" floor="20" ceiling="100" step="20" ng-model="sliderValue"></slider>
+            <slider ng-if="hasControl('Time')" floor="minTime" ceiling="maxTime" step="86400000" ng-model="sliderValue"></slider>
 		</div>
 		<!-- Sorry, I only had time to do HTML table layout :) -->
 		<table class="bottom-pane">
