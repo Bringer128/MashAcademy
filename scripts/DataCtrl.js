@@ -84,16 +84,30 @@ angular.module('MashAcademy')
                 var rain = 4;
 
                 records = records.map(function (row) { return row.split(','); });
-                records = records.map(function (row) {
-                    var rowObj = {};
-                    rowObj.name = nameMap[row[name]] || 'Unknown id: ' + row[name];
-                    rowObj.date = new Date(row[year], row[month], row[day]);
-                    rowObj.value = row[rain];
-                    return rowObj;
+                records = records.filter(function (row) { return !isNaN(parseInt(row[rain])); });
+                records = records.filter(function (row) {
+                    var date = new Date(row[year], row[month], row[day]);
+                    var msecs = date.getTime();
+                    return !isNaN(msecs);
+                });
+                
+                var result = {};
+                records.forEach(function (row) {
+                    var date = new Date(row[year], row[month], row[day]);
+                    var msecs = date.getTime();
+
+                    result[msecs] = result[msecs] || {};
+                    var datum = result[msecs];
+
+                    datum.Rainfall = datum.Rainfall || {};
+                    
+                    var locations = datum.Rainfall;
+                    locations[nameMap[row[name]]] = row[rain];
                 });
 
-                return records;
+                return result;
             });
-        }
+        },
+
     }
 });
