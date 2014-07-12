@@ -35,27 +35,40 @@
 		<table class="bottom-pane">
 			<tr>
 				<td class="back-button-cell">
-					<table class="back-button selectionoff"><tr><td>◄ Back</td></tr></table>
+					<table ng-if="currentQuestionIndex > 0" class="back-button selectionoff" ng-click="previousQuestion()"><tr><td>◄ Back</td></tr></table>
 				</td>
 				<td class="bottom-center-cell">
 					<div class="question-answer-area">
 						<div class="">
-							<p class="question">What was the temperature in Darwin on 25th April 2014?</p>
+							<p class="question">{{ currentQuestion.question }}</p>
 							<div class="answer-area">
-								<input class="answer-text-box" type="text" value="" placeholder="Type answer here" style="width:350px;" />
-								<button class="answer-button selectionoff">Check</button>
-								<!--<table class="error-area">
+								<div ng-if="currentQuestion.type == 'text'">
+									<input class="answer-text-box" type="text" ng-model="answer" placeholder="Type answer here" style="width:350px;" />
+									<button class="answer-button selectionoff" ng-click="currentQuestion.marker(answer)">Check</button>
+								</div>
+								
+								<div ng-if="currentQuestion.type == 'choice'">
+									<button ng-repeat="option in currentQuestion.options" class="answer-button selectionoff" ng-click="currentQuestion.marker(option)">{{ option }}</button>
+								</div>
+								
+								<table class="error-area" ng-if="errorShowing">
 									<tr>
 										<td>Sorry, that's not right. Try again!</td>
 									</tr>
-								</table>-->
+								</table>
+								
+								<table class="success-area" ng-if="currentQuestion.passed">
+									<tr>
+										<td>Yeah, that's right! Move on to the next question.</td>
+									</tr>
+								</table>
 							</div>
 						</div>
 					</div>
 					<!--<div class="answer-error-area"></div>-->
 				</td>
 				<td class="next-button-cell">
-					<table class="next-button selectionoff"><tr><td>Next ►</td></tr></table>
+					<table ng-if="currentQuestionIndex < questions.length - 1" class="next-button selectionoff" ng-click="nextQuestion()"><tr><td>Next ►</td></tr></table>
 				</td>
 			</tr>
 		</table>
