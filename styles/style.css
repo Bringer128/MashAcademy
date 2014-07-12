@@ -384,3 +384,23 @@ slider span.bubble.selection {
 slider span.bubble.limit {
   color: #808080;
 }
+
+.helper {
+	position:absolute;
+	top:20%;
+	left:10%;
+	opacity:0.7;
+}
+
+.helper-arrow {
+	float:left;
+}
+
+.helper-text {
+	font-size:46px;
+	font-weight:bold;
+	color:white;
+	float:left;
+	width:700px;
+	margin:100px 0 0 30px;
+}
