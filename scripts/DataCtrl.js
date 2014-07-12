@@ -1,7 +1,11 @@
 angular.module('MashAcademy')
 .controller('DataCtrl', function ($scope, $http, $timeout, dataService) {
     dataService.getRainfall();
-    dataService.getSolar().then(function (data) { $scope.datasets = data;});
+    dataService.getSolar().then(function (data) {
+        $scope.datasets = data;
+
+        $scope.times = Object.keys(data).map(function (e) { return parseInt(e); });
+    });
 
     $scope.temperatures = {
         "Perth": [
@@ -22,16 +26,11 @@ angular.module('MashAcademy')
         });
     };
 
-    $scope.times = Object.keys($scope.temperatures).map(function (e) {
-        return $scope.temperatures[e];
-    }).reduce(function (joined, arr) {
-        return joined.concat(arr);
-    }, []).map(function (element) {
-        return Date.parse(element[0]);
+    $scope.$watch('times', function (times) {
+        if (!times) return;
+        $scope.maxTime = times.reduce(toMax);
+        $scope.minTime = $scope.times.reduce(toMin);
     });
-
-    $scope.maxTime = $scope.times.reduce(toMax);
-    $scope.minTime = $scope.times.reduce(toMin);
 
     function toMax(m, e) {
         return m > e ? m : e;
