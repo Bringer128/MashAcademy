@@ -1,16 +1,29 @@
 <div class="toolbox">
-    <div class="toolbox-controls">
-        Controls:
-        <div ng-repeat="control in controls">
-
-        </div>
-        <div id="clock-icon" class="icon" draggable="true"><img class="icon" src="content/Swiss_railway_clock.svg"/></div>
-        <div id="map-icon" class="icon" draggable="true"><map simple-map="true"></map></div>
-    </div>
     <div class="toolbox-data">
-        Data:
-        <div ng-repeat="dataset in data">
-            <img draggable="true" ng-src="{{dataset.icon}}" title="{{dataset.name}}" class="icon dataset"/>
-        </div>
+		<p class="box-header">Data</p>
+		<div class="box-content">
+			<div ng-repeat="dataset in data">
+				<div class="control-wrapper" draggable="true" title="{{dataset.name}}">
+					<img ng-src="{{dataset.icon}}" class="icon dataset"/>
+					<p class="control-text">{{dataset.name}}</p>
+					<div style="clear:both"></div>
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="toolbox-controls">
+        <p class="box-header">Controls</p>
+		<div class="box-content">
+			<div class="control-wrapper" draggable="true" id="map-icon">
+				<div class="icon"><map simple-map="true"></map></div>
+				<p class="control-text">Map</p>
+				<div style="clear:both"></div>
+			</div>
+			<div class="control-wrapper" draggable="true" id="clock-icon">
+				<div class="icon"><img class="icon" src="content/Swiss_railway_clock.svg"/></div>
+				<p class="control-text">Day selector</p>
+				<div style="clear:both"></div>
+			</div>
+		</div>
     </div>
 </div>

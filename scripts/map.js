@@ -103,6 +103,10 @@ angular.module('MashAcademy')
 						
 					group.attr("transform", "translate(" + translate + ")scale(" + $scope.scale + ")");
 					
+					if ($scope.simpleMap) {
+						return;
+					}
+					
 					group.selectAll('.city-circle').remove();
 					$scope.cities.forEach(function(city) {
 						var location = projection([city.longitude, city.latitude]);

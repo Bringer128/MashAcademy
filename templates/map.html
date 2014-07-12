@@ -1,6 +1,6 @@
 <svg></svg>
 <div ng-if="!simpleMap">
-	<div class="data-window" ng-repeat="city in cities" ng-style="{ 'top': city.top, 'left': city.left }">
+	<div class="data-window" ng-repeat="city in cities" ng-style="{ 'top': city.top + (city.weather ? 0 : 38), 'left': city.left }">
 		<div class="data-container">
 			<p class="weather-data" ng-if="city.weather">
 				<img ng-if="city.weather == 'Sunny'" src="content/sun.svg" />

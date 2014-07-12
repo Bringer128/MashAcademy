@@ -1,18 +1,35 @@
 <div class="selected" droppable>
-    Selections
-    <div style="width:80%;" class="data" ng-if="selectedData.length > 0">
-        <span style="float:right">Data</span>
-        <div style="width:110%">
-            <div style="padding-top:20px;padding-bottom:20px;padding-left:20px;margin-left:20px;margin-top:20px;margin-bottom:20px;">
-                <div style="background-color:aliceblue;" ng-repeat="dataset in selectedData">{{dataset.name}}</div>
+	<p class="box-header">Workshop</p>
+    
+    <div style="width:80%;border-radius:25px;margin-left:20px;" class="data" ng-if="selectedData.length > 0">
+        <span class="selected-header" style="float:right;margin:10px 40px 10px 10px;">Data</span>
+        <div style="width:110%;">
+            <div style="padding-top:40px;padding-bottom:5px;padding-left:0px;margin-left:15px;margin-top:20px;margin-bottom:20px;">
+                <div ng-repeat="dataset in selectedData" class="component-item">
+						<div style="clear:both"></div>
+					<div class="control-wrapper">
+						<div class="icon"></div>
+						<p class="control-text">{{dataset.name}}</p>
+						<p class="control-remove">×</p>
+						<div style="clear:both"></div>
+					</div>
+				</div>
             </div>
         </div>
     </div>
-    <div style="width:80%;" class="components" ng-if="selectedComponents.length > 0">
-        <span style="float:right">Controls</span>
+    <div style="width:80%;border-radius:25px;margin-left:20px;" class="components" ng-if="selectedComponents.length > 0">
+        <span class="selected-header" style="float:right;margin:10px 40px 10px 10px;">Controls</span>
         <div style="width:110%">
-            <div style="padding-top:20px;padding-bottom:20px;padding-left:20px;margin-left:20px;margin-top:20px;margin-bottom:20px">
-                <div ng-repeat="component in selectedComponents" class="component-item">{{component.name}}</div>
+            <div style="padding-top:40px;padding-bottom:5px;padding-left:0px;margin-left:15px;margin-top:20px;margin-bottom:20px">
+                <div ng-repeat="component in selectedComponents" class="component-item">
+						<div style="clear:both"></div>
+						<div class="control-wrapper">
+						<div class="icon"><map simple-map="true"></map></div>
+						<p class="control-text">{{component.name}}</p>
+						<p class="control-remove">×</p>
+						<div style="clear:both"></div>
+					</div>
+				</div>
             </div>
         </div>
     </div>
