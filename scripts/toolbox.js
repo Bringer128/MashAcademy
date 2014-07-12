@@ -25,7 +25,7 @@ angular.module('MashAcademy')
 
 	        var data;
 	        if (this.id == "clock-icon") {
-	            data = { name: "Clock" };
+	            data = { name: "Time" };
 	        } else if (this.id == "map-icon") {
 	            data = { name: "Map" };
 	        } else {

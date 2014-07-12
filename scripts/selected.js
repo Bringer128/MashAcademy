@@ -10,11 +10,12 @@ angular.module('MashAcademy')
 
             $scope.selectedComponents = [];
 
-            $scope.dataDrop = function ($data) {
-                selectedData.push($data);
+            $scope.hasDataset = function (name) {
+                return $scope.selectedData.filter(function (e) { return e.name == name; }).length == 1;
             }
-            $scope.controlDrop = function ($data) {
-                selectedComponents.push($data);
+
+            $scope.hasControl = function (name) {
+                return $scope.selectedComponents.filter(function (e) { return e.name == name; }).length == 1;
             }
 
             $scope.handleDrop = function (e) {
@@ -23,6 +24,8 @@ angular.module('MashAcademy')
                 e.stopPropagation();
                 var dataText = e.dataTransfer.getData('dragItem');
                 var data = JSON.parse(dataText);
+
+                $scope.fireResize();
 
                 $scope.$apply(function () {
                     if (data.type == 'dataset') {

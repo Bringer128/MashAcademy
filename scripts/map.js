@@ -48,7 +48,6 @@ angular.module('MashAcademy')
 			
 			var feature = topojson.feature(json, json.objects.layer1);
 			
-			$(window).resize(resize);
 			
 			var width = $element.width(),
 				height = $element.height();
@@ -67,6 +66,10 @@ angular.module('MashAcademy')
 				.attr("d", path);
 			
 			resize();
+
+			$scope.$on('resize', function () {
+			    resize();
+			});
 				
 			function resize() {
 				$scope.$apply(function() {
