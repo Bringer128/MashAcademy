@@ -1,0 +1,265 @@
+#!/usr/bin/env node
+// @DEBUG //
+var debug = false; // Set to true to enable debuging
+	if (debug) console.log('DEBUG: Can you hear me? Are we alive? Is this the real life?');
+
+// @note -----
+// Please understand, this code was created by an amature. My team mates are much
+// better coders than me, but their skills were needed elsewhere. If you find errors,
+// feel free to let me know so that I can improve! -@d0vr
+
+
+/**************
+ *   Config   *
+ *************/
+
+
+// FTP Config
+var BOMconfig = {
+	host: 		'ftp2.bom.gov.au', 	// 'ftp2.bom.gov.au'
+	port: 		 21, 				// 21
+	user: 		'anonymous', 		// 'anonymous'
+	password: 	'guest' 			// 'guest'
+};
+
+// General
+// @todo move dataDir to db another time (not during GovHack)
+var dataDir = 	'data/';
+var cacheDir = 	dataDir+'tmp/';
+
+	// @DEBUG // Any problems w/Config settings?
+	// @todo add err catching
+	if (debug) console.log('DEBUG: Config Settings Set');
+
+
+/***************
+ *    Debug    *
+ **************/
+
+
+// Variables used for debuging
+
+var yr = new Date().getFullYear();
+
+var d = {
+
+	// What to debug?
+	'ftp' : true,
+	'cacheWritable' : false,
+
+	// Test directories and folders
+	'tp' : "anon/gen/clim_data/IDCKWCDEA0/tables/wa/perth_airport/", 	// Test Path (Perth Airport)
+	'tf' : 'perth_airport-'+yr+'01.csv' 	// Data for first month of current year @ Perth Airport
+}
+
+
+/**************
+ *  Requires  *
+ *************/
+
+
+// Filesystem
+var fs = require('fs');
+
+// Connect to BOM FTP server
+var ftp = require('ftp');
+
+// Enable BOM CSV to JSON
+var c2jconv	= require("csvtojson").core.Converter;
+
+/******* Variables ********/
+
+var bom;
+var c2j;
+var location;
+// create measured variables
+var v = {
+	'maxT':{
+		'file':'max-temp.json',
+		'data':{}
+	},
+	'minT':{
+		'file':'min-temp.json',
+		'data':{}
+	},
+	'maxH':{
+		'file':'max-hum.json',
+		'data':{}
+	},
+	'minH':{
+		'file':'max-hum.json',
+		'data':{}
+	},
+	'rain':{
+		'file':'rain.json',
+		'data':{}
+	},
+	'solar':{
+		'file':'solar.json',
+		'data':{}
+	},
+	'wind':{
+		'file':'wind.json',
+		'data':{}
+	}
+}
+
+
+	// @DEBUG // Did these modules load w/o problem?
+	// @todo Add err catching
+	if (debug) console.log('DEBUG: Required Modules Loaded');
+
+
+/**************
+ * Functions  *
+ *************/
+
+
+// Retreive needed locations from filesystem
+// @todo upgrade to using database
+
+function getLocations() { location = JSON.parse(fs.readFileSync(dataDir+'locations.json', 'utf8')); }
+
+
+/********************
+ * Generate Master JSON folder for use in main app
+ *
+ */
+
+function generateMasterJSON() {
+	// Create script to collate information and save to disk.
+}
+
+
+/********************
+ * Processing JSON Data
+ *
+ * @param <string> act
+ * What action is being performed? <default="load">
+ */
+
+function jsonData(act) {
+	if(typeof(act)==='undefined') act = 'load'; // Set default @param if blank
+	
+	// Generate 'live' json objects of existing data
+	if (act=='load') {
+		for (var i in v) {
+			// @todo add error handling
+			v[i].data = JSON.parse(fs.readFileSync(dataDir+'json/'+v[i].file, 'utf8'));
+		}
+
+	// Save modified json objects to storage
+	} else if (act=='save') {
+		for (var i in v) {
+			// @todo add error handling
+			fs.writeFile(dataDir+'json/'+v[i].file, JSON.stringify(v[i].data), function(err) {
+				if(err) { console.log(err); }
+			}); 
+		}	
+
+	// Create master.json object and save to storage
+	} else if (act=='parse') { generateMasterJSON();
+
+	// If no 'act' @param defined, die horribly
+	} else {
+		console.log('ERROR! function(jsonData) \'act\' @param not set');
+	}
+}
+
+function initFTP() {
+
+	// Create FTP connection //
+	bom = new ftp();
+
+	// Prepare cvs2json Convertor //
+	var param = {}; // Use plugins default settings
+	c2j = new c2jconv(param);
+
+}
+
+function init() {
+
+	// Get the locations
+	getLocations();
+
+	// Load current data
+	jsonData('load');
+
+	for (var loc in location) {
+		console.log(location[loc].stnName);
+	}
+
+	for (var i in v) {
+		console.log(v[i].data);
+	}
+}
+
+/********************
+ * Get FTP Data
+ *
+ * @param 
+ */
+
+function getFtpData () {
+bom.on('ready', function() {
+	bom.get(d.tp+d.tf, function(err, stream) {
+	if (err) throw err;
+		stream.once('close', function() { bom.end(); });
+		stream.pipe(fs.createWriteStream('tmp'));
+		fs.readFile('tmp', 'utf8', function (err,data) {
+  		if (err) return console.log(err);
+  			data = data.split('(MJ/sq m)');
+  			data = data[1].split('Totals:');
+  			data = data[0].replace(/\//g,'-');
+  			data = "location,date,trans,rain,evap,max,min,humid-max,humid-min,wind,solar"+data;
+  			fs.writeFile("tmp", data, function(err) {
+				if(err) console.log(err);
+			}); 
+
+			//end_parsed will be emitted once parsing finished
+			c2j.on("end_parsed",function(jsonObj){
+			   console.log(jsonObj); //here is your result json object
+			});
+
+			//read from file
+			var fileStream = fs.createReadStream('tmp');
+			fileStream.pipe(c2j);
+  			
+			// Do something with the json object
+
+		});
+	});
+});
+
+}
+
+
+/**************
+ *  Runtime   *
+ *************/
+
+// Get locations and existing data
+init();
+
+/*
+
+initFTP();
+getFtpData();
+
+/******* UPDATE DATA FROM FTP *********/
+
+/*
+
+// connect to BOM FTP server using config credentials
+bom.connect(BOMconfig);
+bom.on('end', function() {
+	console.log('That\'s all folks!');
+});
+
+
+
+/******** CLEAN UP **********/
+
+// Delete application cache
+
+

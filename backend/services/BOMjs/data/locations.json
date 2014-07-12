@@ -1,0 +1,16 @@
+{
+  "9021": {
+    "stnName": "Perth Airport",
+    "csvString": "PERTH AIRPORT",
+    "long": 0,
+    "lat": 0,
+    "ftpDir": "wa/perth_airport/"
+  },
+  "3003": {
+    "stnName": "Broome Airport",
+    "csvString": "",
+    "long": 0,
+    "lat": 0,
+    "ftpDir": "wa/broome_airport/"
+  }
+}
