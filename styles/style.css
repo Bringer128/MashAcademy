@@ -67,11 +67,59 @@ map {
 	display:block;
 	width:100%;
 	height:100%;
+	position:relative;
+}
+
+.map-path {
+	fill:rgb(41, 59, 71);
 }
 
 .icon {
     width:50px;
     height:50px;
+}
+
+.data-window {
+	position:absolute;
+}
+
+.data-window * {
+	margin:0;
+	padding:0;
+}
+
+.data-container {
+	margin-top:-53px;
+	margin-left: -50%;
+	float: left;
+	font-size:13px;
+}
+
+.temp-data {
+	float:left;
+	padding:3px 10px;
+	background:red;
+	opacity:0.8;
+	color:white;
+	border-radius:5px 0px 0px 0px;	
+    border: 2px rgba(255, 255, 255, 0.96) solid;
+}
+
+.city-name {
+	float:left;
+	padding:3px 10px;
+	background:blue;
+	opacity:0.8;
+	color:white;
+	border-radius:0px 0px 5px 0px;
+    border: 2px rgba(255, 255, 255, 0.96) solid;
+    border-left: 0px;
+}
+
+.weather-data img {
+	height:40px;
+	margin-bottom:-4px;
+	margin-left:calc(50% - 20px);
 }
 
 .selected {
