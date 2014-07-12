@@ -6,7 +6,16 @@ angular.module('MashAcademy')
 	replace: false,
     scope: false,
 	link: function($scope, $element, $attrs) {
-	    
+	
+		var cities = [
+			{ name: 'Sydney', latitude: -33.870, longitude: 151.210 },
+			{ name: 'Melbourne', latitude: -37.810, longitude: 144.960 },
+			{ name: 'Brisbane', latitude: -27.460, longitude: 153.020 },
+			{ name: 'Perth', latitude: -31.960, longitude: 115.840 },
+			{ name: 'Adelaide', latitude: -34.930, longitude: 138.600 },
+			{ name: 'Hobart', latitude: -42.850, longitude: 147.290 }
+		];
+		
 		d3.json('content/states.topojson.js', function(error, json) {
 			if (error) return console.error(error);
 			console.log(json);
@@ -35,6 +44,10 @@ angular.module('MashAcademy')
 				translate = [width / 2 - scale * x, height / 2 - scale * y];
 				
 			svgPath.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+			
+			cities.forEach(function(city) {
+				
+			});
 		});
 	}
   }}]);
