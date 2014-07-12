@@ -4,55 +4,109 @@ angular.module('MashAcademy')
 	restrict: 'E',
 	templateUrl: 'templates/map.html',
 	replace: false,
-    scope: false,
+    scope: { 'simpleMap': '@' },
 	link: function($scope, $element, $attrs) {
 	
-		var cities = [
+		var weatherData = [
+			{ name: 'Sydney', weather: 'Sunny', minTemp: 4, maxTemp: 32 },
+			{ name: 'Melbourne', weather: 'Cloudy', minTemp: 2, maxTemp: 32 },
+			{ name: 'Brisbane', weather: 'Cloudy', minTemp: 2, maxTemp: 32 },
+			{ name: 'Perth', weather: 'Raining', minTemp: 14, maxTemp: 39 },
+			{ name: 'Adelaide', weather: 'Sunny', minTemp: 4, maxTemp: 38 },
+			{ name: 'Hobart', weather: 'Cloudy', minTemp: 7, maxTemp: 35 },
+			{ name: 'Darwin', weather: 'Raining', minTemp: 7, maxTemp: 28 },
+			{ name: 'Cairns', weather: 'Sunny', minTemp: 8, maxTemp: 27 },
+			{ name: 'Broome', weather: 'Sunny', minTemp: 6, maxTemp: 26 },
+		]
+	
+		$scope.cities = [
 			{ name: 'Sydney', latitude: -33.870, longitude: 151.210 },
 			{ name: 'Melbourne', latitude: -37.810, longitude: 144.960 },
 			{ name: 'Brisbane', latitude: -27.460, longitude: 153.020 },
 			{ name: 'Perth', latitude: -31.960, longitude: 115.840 },
 			{ name: 'Adelaide', latitude: -34.930, longitude: 138.600 },
-			{ name: 'Hobart', latitude: -42.850, longitude: 147.290 }
+			{ name: 'Hobart', latitude: -42.850, longitude: 147.290 },
+			{ name: 'Darwin', latitude: -12.430, longitude: 130.850 },
+			{ name: 'Cairns', latitude: -16.920, longitude: 145.750 },
+			{ name: 'Broome', latitude: -17.9619, longitude: 122.2361 },
 		];
+		
+		addDataToCities($scope.cities, weatherData);
+		
+		function addDataToCities(cities, data) {
+			data.forEach(function(datum) {
+				var city = cities.filter(function(city) {
+					return datum.name == city.name;
+				})[0];
+				
+				$.extend(city, datum);
+			});
+		}
 		
 		d3.json('content/states.topojson.js', function(error, json) {
 			if (error) return console.error(error);
-			console.log(json);
 			
 			var feature = topojson.feature(json, json.objects.layer1);
 			
-			render();
+			$(window).resize(resize);
 			
-			$(window).resize(render);
-			
-			function render() {
-				var width = $element.width(),
+			var width = $element.width(),
 				height = $element.height();
 
-				$element.find('svg').empty();
-				var svg = d3.select($element.find('svg').get(0))
-					.attr("width", width)
-					.attr("height", height);
-					
-				var path = d3.geo.path().projection(d3.geo.mercator());
-				var svgPath = svg.append("path")
-					.datum(feature)
-					.attr('fill', 'white')
-					.attr("d", path)
-					
-				var bounds = path.bounds(feature),
-					dx = bounds[1][0] - bounds[0][0],
-					dy = bounds[1][1] - bounds[0][1],
-					x = (bounds[0][0] + bounds[1][0]) / 2,
-					y = (bounds[0][1] + bounds[1][1]) / 2,
-					scale = .9 / Math.max(dx / width, dy / height),
-					translate = [width / 2 - scale * x, height / 2 - scale * y];
-					
-				svgPath.attr("transform", "translate(" + translate + ")scale(" + scale + ")");
+			$element.find('svg').empty();
+			var svg = d3.select($element.find('svg').get(0))
+				.attr("width", width)
+				.attr("height", height);
 				
-				cities.forEach(function(city) {
+			var projection = d3.geo.mercator();
+			var path = d3.geo.path().projection(projection);
+			var group = svg.append("g");
+			var svgPath = group.append("path")
+				.attr('class', 'map-path')
+				.datum(feature)
+				.attr("d", path);
+			
+			resize();
+				
+			function resize() {
+				$scope.$apply(function() {
+					width = $element.width(),
+					height = $element.height();
 					
+					svg
+						.attr("width", width)
+						.attr("height", height);
+					
+					var bounds = path.bounds(feature);
+					var dx = bounds[1][0] - bounds[0][0];
+					var dy = bounds[1][1] - bounds[0][1];
+					var x = (bounds[0][0] + bounds[1][0]) / 2;
+					var y = (bounds[0][1] + bounds[1][1]) / 2;
+					$scope.scale = .9 / Math.max(dx / width, dy / height);
+					var translate = [width / 2 - $scope.scale * x, height / 2 - $scope.scale * y];
+						
+					group.attr("transform", "translate(" + translate + ")scale(" + $scope.scale + ")");
+					
+					group.selectAll('.city-circle').remove();
+					$scope.cities.forEach(function(city) {
+						var location = projection([city.longitude, city.latitude]);
+						city.top = location[1] * $scope.scale + translate[1];
+						city.left = location[0] * $scope.scale + translate[0];
+						
+						group.append('circle')
+							.attr('class', 'city-circle')
+							.attr('cx', location[0])
+							.attr('cy', location[1])
+							.attr('r', 8 / $scope.scale)
+							.attr('fill', 'black')
+							
+						group.append('circle')
+							.attr('class', 'city-circle')
+							.attr('cx', location[0])
+							.attr('cy', location[1])
+							.attr('r', 6 / $scope.scale)
+							.attr('fill', 'white')
+					});
 				});
 			}
 		});
