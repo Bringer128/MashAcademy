@@ -1,5 +1,5 @@
 angular.module('MashAcademy')
-.controller('DataCtrl', function ($scope, $http) {
+.controller('DataCtrl', function ($scope, $http, $timeout) {
     
     $scope.temperatures = {
         "Perth": [
@@ -46,4 +46,10 @@ angular.module('MashAcademy')
         date.setTime(msecs);
         return moment(date).format("YYYY MMM DD");
     };
+
+    $scope.$watch('hasControl("Time")', function (hasTime) {
+        $timeout(function () {
+            $scope.fireResize();
+        });
+    });
 });
