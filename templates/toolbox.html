@@ -4,7 +4,7 @@
 		<div class="box-content">
 			<div ng-repeat="dataset in data">
 				<div class="control-wrapper" draggable="true" title="{{dataset.name}}">
-					<img ng-src="{{dataset.icon}}" class="icon dataset"/>
+					<img ng-src="{{dataset.icon}}" class="icon dataset" ng-class="{ thermometer: dataset.name == 'Temperature', weather: dataset.name == 'Weather' }" />
 					<p class="control-text">{{dataset.name}}</p>
 					<div style="clear:both"></div>
 				</div>
@@ -15,12 +15,12 @@
         <p class="box-header">Controls</p>
 		<div class="box-content">
 			<div class="control-wrapper" draggable="true" id="map-icon">
-				<div class="icon"><map simple-map="true"></map></div>
+				<div class="icon"><map simple-map="true" style="height:34px;margin:0px 0 0 0px"></map></div>
 				<p class="control-text">Map</p>
 				<div style="clear:both"></div>
 			</div>
 			<div class="control-wrapper" draggable="true" id="clock-icon">
-				<div class="icon"><img class="icon" src="content/Swiss_railway_clock.svg"/></div>
+				<div class="icon"><img class="icon" src="content/calendar.svg" style="height:30px;margin:2px 0 0 0px"/></div>
 				<p class="control-text">Day selector</p>
 				<div style="clear:both"></div>
 			</div>

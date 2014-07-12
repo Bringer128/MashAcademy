@@ -14,7 +14,7 @@ var debug = false; // Set to true to enable debuging
  *************/
 
 
-// FTP Config
+/**** FTP Config *****/
 var BOMconfig = {
 	host: 		'ftp2.bom.gov.au', 	// 'ftp2.bom.gov.au'
 	port: 		 21, 				// 21
@@ -22,7 +22,7 @@ var BOMconfig = {
 	password: 	'guest' 			// 'guest'
 };
 
-// General
+/**** General Settings *****/
 // @todo move dataDir to db another time (not during GovHack)
 var dataDir = 	'data/';
 var cacheDir = 	dataDir+'tmp/';
@@ -32,17 +32,9 @@ var cacheDir = 	dataDir+'tmp/';
 	if (debug) console.log('DEBUG: Config Settings Set');
 
 
-/***************
- *    Debug    *
- **************/
-
-
-// Variables used for debuging
-
+/**** Debug Options *****/
 var yr = new Date().getFullYear();
-
 var d = {
-
 	// What to debug?
 	'ftp' : true,
 	'cacheWritable' : false,
@@ -67,43 +59,6 @@ var ftp = require('ftp');
 // Enable BOM CSV to JSON
 var c2jconv	= require("csvtojson").core.Converter;
 
-/******* Variables ********/
-
-var bom;
-var c2j;
-var location;
-// create measured variables
-var v = {
-	'maxT':{
-		'file':'max-temp.json',
-		'data':{}
-	},
-	'minT':{
-		'file':'min-temp.json',
-		'data':{}
-	},
-	'maxH':{
-		'file':'max-hum.json',
-		'data':{}
-	},
-	'minH':{
-		'file':'max-hum.json',
-		'data':{}
-	},
-	'rain':{
-		'file':'rain.json',
-		'data':{}
-	},
-	'solar':{
-		'file':'solar.json',
-		'data':{}
-	},
-	'wind':{
-		'file':'wind.json',
-		'data':{}
-	}
-}
-
 
 	// @DEBUG // Did these modules load w/o problem?
 	// @todo Add err catching
@@ -119,6 +74,43 @@ var v = {
 // @todo upgrade to using database
 
 function getLocations() { location = JSON.parse(fs.readFileSync(dataDir+'locations.json', 'utf8')); }
+
+// Retreive needed dataTypes from filesystem
+// @todo upgrade to using database
+
+function getDataTypes() { 
+	// create measured variables
+	var v = {
+		'maxT':{
+			'file':'max-temp.json',
+			'data':{}
+		},
+		'minT':{
+			'file':'min-temp.json',
+			'data':{}
+		},
+		'maxH':{
+			'file':'max-hum.json',
+			'data':{}
+		},
+		'minH':{
+			'file':'max-hum.json',
+			'data':{}
+		},
+		'rain':{
+			'file':'rain.json',
+			'data':{}
+		},
+		'solar':{
+				'file':'solar.json',
+			'data':{}
+		},
+		'wind':{
+			'file':'wind.json',
+			'data':{}
+		}
+	}
+}
 
 
 /********************
@@ -166,41 +158,25 @@ function jsonData(act) {
 	}
 }
 
-function initFTP() {
 
+/********************
+ * Init FTP Connection and cvs2json convertor
+ */
+
+function initFTP() {
 	// Create FTP connection //
 	bom = new ftp();
-
 	// Prepare cvs2json Convertor //
 	var param = {}; // Use plugins default settings
 	c2j = new c2jconv(param);
-
 }
 
-function init() {
-
-	// Get the locations
-	getLocations();
-
-	// Load current data
-	jsonData('load');
-
-	for (var loc in location) {
-		console.log(location[loc].stnName);
-	}
-
-	for (var i in v) {
-		console.log(v[i].data);
-	}
-}
 
 /********************
  * Get FTP Data
- *
- * @param 
  */
 
-function getFtpData () {
+function getFtp () {
 bom.on('ready', function() {
 	bom.get(d.tp+d.tf, function(err, stream) {
 	if (err) throw err;
@@ -233,18 +209,99 @@ bom.on('ready', function() {
 
 }
 
+/********************
+ * We need locations, datatypes and data!
+ *
+ */
+
+function init() {
+	getLocations();		// Get Weather Stn locations
+	getDataTypes();		// Get Data Types
+	jsonData('load');	// Load current data
+	initFTP();
+}
+
+/********************
+ * What is done once, after the first init?
+ *
+ */
+
+function initRun() {
+	
+	for (var loc in location) {
+		console.log(location[loc].stnName);
+	}
+
+}
+
+/********************
+ * Clean up and automatic save
+ *
+ * @param <boolean> save
+ * Should the function save the live json data? <default=true>
+ *
+ * @todo Set up an exit function when this script is able to run as a service
+ */
+
+function clean(save) {
+	// Santise data here? Dunno.
+	jsonData('save');
+	jsonData('parse');
+	//Delete the scripts cache
+}
+
+/********************
+ * Function to exit the service gracefully (i.e., if run as a service through forever or alike)
+ *
+ * @todo Set up an exit function when this script is able to run as a service !! Not important for MVP atm
+ */
+
+function exit() {
+	clean();
+	// Die gracefully.
+}
+
+
 
 /**************
  *  Runtime   *
  *************/
 
+/******* Variables ********/
+var bom;
+var c2j;
+var location;
+var v;
+
 // Get locations and existing data
 init();
 
-/*
+// Establish FTP connection and update data
+initRun();
 
-initFTP();
-getFtpData();
+// Clean up loose ends and tmp file etc. Save json data
+exit(); // Change to clean(); when able to run script as a service
+
+
+
+/**************
+ *  Snippets  *
+ *************/
+
+
+
+
+for (var i in v) {
+	console.log(v[i].data);
+}
+
+// initFTP();
+// getFtpData();
+
+
+// This is how to get date in number format!!
+// var date = Date.parse("2014-07-12");
+
 
 /******* UPDATE DATA FROM FTP *********/
 
@@ -256,10 +313,6 @@ bom.on('end', function() {
 	console.log('That\'s all folks!');
 });
 
-
-
-/******** CLEAN UP **********/
-
-// Delete application cache
+*/
 
 
