@@ -22,7 +22,7 @@ angular.module('MashAcademy')
                 console.log("handleDrop");
                 e.preventDefault();
                 e.stopPropagation();
-                var dataText = e.dataTransfer.getData('dragItem');
+                var dataText = e.dataTransfer.getData('dragItem');				
                 var data = JSON.parse(dataText);
 
                 $scope.fireResize();

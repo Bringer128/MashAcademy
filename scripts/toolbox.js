@@ -1,5 +1,5 @@
 angular.module('MashAcademy')
-.directive('toolbox', [function() {
+.directive('toolbox', ['$rootScope', function($rootScope) {
   return {
 	restrict: 'E',
 	templateUrl: 'templates/toolbox.html',
@@ -34,6 +34,8 @@ angular.module('MashAcademy')
 	        }
 
 	        e.dataTransfer.setData('dragItem', JSON.stringify(data));
+			
+			$rootScope.showHelper = false;
 	    };
 
 	    $scope.handleDragEnd = function (e) {
@@ -48,7 +50,9 @@ angular.module('MashAcademy')
         link: function (scope, element, attrs) {
             element[0].addEventListener('dragstart', function () {
                 console.log('dragstart');
-                scope.handleDragStart.apply(this, arguments);
+				scope.$apply(function() {
+					scope.handleDragStart.apply(this, arguments);
+				});
             }, false);
             element[0].addEventListener('dragend', function () {
                 console.log('dragend');

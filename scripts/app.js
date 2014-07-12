@@ -1,5 +1,7 @@
 var mashAcademy = angular.module('MashAcademy', ['vr.directives.slider'])
-.controller('MashAcademy', function($scope, $timeout) {
+.controller('MashAcademy', function($rootScope, $scope, $timeout) {
+	$rootScope.showHelper = true;
+
 	$scope.questions = [
 		{ question: 'What was the MINIMUM TEMPERATURE in Broome on the 18th June 2014?', answer: 8.3, type: 'text', marker: markTextQuestion, hint: 'Try using the temperature data and putting it on the map!', passed: false },
 		{ question: 'Was it SUNNY, CLOUDY or RAINING in Cairns on the 1st July 2014?', answer: 'Sunny', type: 'choice', marker: markTextQuestion, options: ['Sunny', 'Cloudy', 'Raining'], hint: 'Try using the weather data and putting it on the map!', passed: false },
