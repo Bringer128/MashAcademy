@@ -11,11 +11,63 @@ angular.module('MashAcademy')
 	    ];
 	    $scope.data = [{
 	        name: 'weather',
-            icon: 'content/sun-clouds.png'
+	        icon: 'content/sun-clouds.png',
+            type: 'dataset'
 	    }, {
 	        name: 'temperature',
-            icon: 'content/degrees.gif'
+	        icon: 'content/degrees.gif',
+            type: 'dataset'
 	    }];
+
+	    $scope.handleDragStart = function (e) {
+	        console.log("handleDragStart");
+	        this.style.opacity = '0.4';
+
+	        var data;
+	        if (this.id == "clock-icon") {
+	            data = { name: "Clock" };
+	        } else if (this.id == "map-icon") {
+	            data = { name: "Map" };
+	        } else {
+	            var name = $(this).attr('title');
+	            data = $scope.data.reduce(function (m, e) { return e.name == name ? e : m; });
+	        }
+
+	        e.dataTransfer.setData('dragItem', JSON.stringify(data));
+	    };
+
+	    $scope.handleDragEnd = function (e) {
+	        console.log("handleDragEnd");
+	        this.style.opacity = '1.0';
+	    };
 	}
   };
-}]);
+}]).directive('draggable', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element[0].addEventListener('dragstart', function () {
+                console.log('dragstart');
+                scope.handleDragStart.apply(this, arguments);
+            }, false);
+            element[0].addEventListener('dragend', function () {
+                console.log('dragend');
+                scope.handleDragEnd.apply(this, arguments);
+            }, false);
+        }
+    }
+}).directive('droppable', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element[0].addEventListener('drop', function () {
+                console.log('drop');
+                scope.handleDrop.apply(this, arguments);
+            }, false);
+            element[0].addEventListener('dragover', function () {
+                console.log('dragover');
+                scope.handleDragOver.apply(this, arguments);
+            }, false);
+        }
+    }
+});

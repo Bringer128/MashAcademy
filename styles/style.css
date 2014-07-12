@@ -107,3 +107,16 @@ map {
 .selected .empty-component-item {
     background-color:#5F7A87;
 }
+.selected .empty-data-item {
+    background-color:#5F7A87;
+}
+
+.toolbox .icon {
+    -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}

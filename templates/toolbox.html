@@ -4,13 +4,13 @@
         <div ng-repeat="control in controls">
 
         </div>
-        <div class="icon"><img class="icon" src="content/Swiss_railway_clock.svg"/></div>
-        <div class="icon"><map></map></div>
+        <div id="clock-icon" class="icon" draggable="true"><img class="icon" src="content/Swiss_railway_clock.svg"/></div>
+        <div id="map-icon" class="icon" draggable="true"><map></map></div>
     </div>
     <div class="toolbox-data">
         Data:
         <div ng-repeat="dataset in data">
-            <img ng-src="{{dataset.icon}}" title="{{dataset.name}}" class="icon"/>
+            <img draggable="true" ng-src="{{dataset.icon}}" title="{{dataset.name}}" class="icon dataset"/>
         </div>
     </div>
 </div>
