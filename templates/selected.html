@@ -1,0 +1,20 @@
+<div class="selected">
+    <div style="width:80%;" class="data">
+        <span style="float:right">Data</span>
+        <div style="width:110%">
+            <div style="padding-top:20px;padding-bottom:20px;margin-left:20px;margin-top:20px;margin-bottom:20px;">
+                <div style="background-color:aliceblue;" ng-repeat="dataset in selectedData">{{dataset.name}}</div>
+                <div class="empty-component-item">Drag more here!</div>
+            </div>
+        </div>
+    </div>
+    <div style="width:80%;" class="components">
+        <span style="float:right">Controls</span>
+        <div style="width:110%">
+            <div style="padding-top:20px;padding-bottom:20px;margin-left:20px;margin-top:20px;margin-bottom:20px">
+                <div ng-repeat="component in selectedComponents" class="component-item">{{component.name}}</div>
+                <div class="empty-component-item">Drag more here!</div>
+            </div>
+        </div>
+    </div>
+</div>

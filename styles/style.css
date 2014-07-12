@@ -121,3 +121,37 @@ map {
 	margin-bottom:-4px;
 	margin-left:calc(50% - 20px);
 }
+
+.selected {
+    width:100%;
+    height:100%;
+}
+
+.selected .data {
+    background-color: palevioletred;
+}
+
+.selected .data-item {
+    margin-left:10px;
+    background-color:antiquewhite;
+}
+
+.selected .left-column {
+    float:left;width:30%;height:100%;
+}
+
+.selected .right-column {
+    float:left;width:70%;height:100%;
+}
+
+.selected .components {
+    background-color:chartreuse;
+}
+
+.selected .component-item {
+    background-color:lightcyan;
+}
+
+.selected .empty-component-item {
+    background-color:#5F7A87;
+}
