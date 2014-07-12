@@ -1,0 +1,19 @@
+<div class="day-selector">
+	<table>
+		<tr>
+			<td class="change-cell" ng-click="nextMonth()" ng-show="isNextMonth()">▲</td>
+			<td class="middle-cell"></td>
+			<td class="change-cell" ng-click="nextDay()" ng-show="isNextDay()">▲</td>
+		</tr>
+		<tr>
+			<td class="value-cell" style="width:130px;">{{ currentMonth }}</td>
+			<td></td>
+			<td class="value-cell" style="width:50px;">{{ currentDay }}</td>
+		</tr>
+		<tr>
+			<td class="change-cell" ng-click="previousMonth()" ng-show="isPreviousMonth()">▼</td>
+			<td></td>
+			<td class="change-cell" ng-click="previousDay()" ng-show="isPreviousDay()">▼</td>
+		</tr>
+	</table>
+</div>
