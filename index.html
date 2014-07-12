@@ -29,9 +29,9 @@
 		    <toolbox></toolbox>
             <selected></selected>
 		</div>
-		<div class="right-pane" ng-controller="DataCtrl">
+		<div class="right-pane" ng-controller="DataCtrl" ng-init="slider = {}">
 			<div ng-style="{ height: hasControl('Time') ? '80%' : '100%' }"><map ng-if="hasControl('Map')"></map></div>
-            <slider ng-if="hasControl('Time')" floor="{{minTime}}" ceiling="{{maxTime}}" step="86400000" ng-model="sliderValue" translate-fn="toDate"></slider>
+            <slider ng-if="hasControl('Time')" floor="{{minTime}}" ceiling="{{maxTime}}" step="86400000" ng-model="slider.sliderValue" translate-fn="toDate"></slider>
 		</div>
 		<!-- Sorry, I only had time to do HTML table layout :) -->
 		<table class="bottom-pane">

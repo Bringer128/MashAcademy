@@ -4,8 +4,11 @@ angular.module('MashAcademy')
 	restrict: 'E',
 	templateUrl: 'templates/map.html',
 	replace: false,
-    scope: { 'simpleMap': '@' },
-	link: function($scope, $element, $attrs) {
+    scope: false,
+    link: function ($scope, $element, $attrs) {
+        $attrs.$observe('simpleMap', function (attr) {
+            $scope.simpleMap = attr;
+        });
 	
 		var temperatureData = [
 			{ name: 'Sydney', minTemp: 4, maxTemp: 32 },
@@ -43,18 +46,25 @@ angular.module('MashAcademy')
 			{ name: 'Broome', latitude: -17.9619, longitude: 122.2361 },
 		];
 		
-		addDataToCities($scope.cities, weatherData);
-		addDataToCities($scope.cities, temperatureData);
+		addDataToCities($scope.cities);
 		
-		function addDataToCities(cities, data) {
-			data.forEach(function(datum) {
-				var city = cities.filter(function(city) {
-					return datum.name == city.name;
-				})[0];
-				
-				$.extend(city, datum);
-			});
+		function addDataToCities(cities) {
+		    cities.forEach(function (city) {
+		        if (!$scope.currentMin) return;
+		        var min = $scope.currentMin(city.name);
+		        var max = $scope.currentMax(city.name);
+		        var weather = $scope.currentWeather(city.name);
+
+		        city.minTemp = min;
+		        city.maxTemp = max;
+		        city.weather = weather;
+		    });
 		}
+
+		$scope.$watch('slider.sliderValue', function () {
+		    addDataToCities($scope.cities);
+		});
+		$scope.$watch('selectedData', function () { addDataToCities($scope.cities); }, true);
 		
 		d3.json('content/states.topojson.js', function(error, json) {
 			if (error) return console.error(error);

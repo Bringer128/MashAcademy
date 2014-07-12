@@ -1,30 +1,63 @@
 angular.module('MashAcademy')
 .controller('DataCtrl', function ($scope, $http, $timeout, dataService) {
+
     dataService.getRainfall();
+    dataService.getMaxTemp();
+    dataService.getMinTemp();
     dataService.getSolar().then(function (data) {
         $scope.datasets = data;
 
         $scope.times = Object.keys(data).map(function (e) { return parseInt(e); });
     });
 
-    $scope.temperatures = {
-        "Perth": [
-            ["2014-01-01", 10],
-            ["2014-01-02", 20],
-            ["2014-01-03", 30]
-        ]
-    };
-    $scope.currentTemperature = function (city) {
-        return $scope.temperatures[city].reduce(function (m, e) {
+    function toObjectWithNameEqual(name) {
+        return function (m, e) {
             if (m) return m;
+            if (e.name == name) return e;
 
-            var date = Date.parse(e[0]);
+            return null;
+        };
+    }
 
-            if (date.getTime() == $scope.sliderValue) {
-                return e[1];
-            }
-        });
-    };
+    function isWeatherSelected() {
+        return $scope.selectedData && !!$scope.selectedData.reduce(toObjectWithNameEqual('Weather'), null);
+    }
+    function isTemperatureSelected() {
+        return $scope.selectedData && !!$scope.selectedData.reduce(toObjectWithNameEqual('Temperature'), null);
+    }
+    $scope.currentValues = function () {
+        if (!$scope.datasets) return null;
+        if (!$scope.slider.sliderValue) return null;
+        
+        return $scope.datasets[$scope.slider.sliderValue];
+    }
+
+    $scope.currentMin = function (name) {
+        if (!isTemperatureSelected()) return;
+        var currentValue = $scope.currentValues();
+        if (!currentValue) return null;
+        var minTemp = currentValue.MinTemp;
+        if (!minTemp) return null;
+        return minTemp[name];
+    }
+
+    $scope.currentMax = function (name) {
+        if (!isTemperatureSelected()) return;
+        var currentValue = $scope.currentValues();
+        if (!currentValue) return null;
+        var maxTemp = currentValue.MaxTemp;
+        if (!maxTemp) return null;
+        return maxTemp[name];
+    }
+
+    $scope.currentWeather = function (name) {
+        if (!isWeatherSelected()) return;
+        var currentValue = $scope.currentValues();
+        if (!currentValue) return null;
+        var weather = currentValue.Weather;
+        if (!weather) return null;
+        return weather[name];
+    }
 
     $scope.$watch('times', function (times) {
         if (!times) return;
@@ -71,6 +104,8 @@ angular.module('MashAcademy')
     var dataset = {};
     var rainfall;
     var solar;
+    var minTemp;
+    var maxTemp;
 
     return {
         getRainfall: function () {
@@ -89,14 +124,14 @@ angular.module('MashAcademy')
                 records = records.map(function (row) { return row.split(','); });
                 records = records.filter(function (row) { return !isNaN(parseInt(row[rain])); });
                 records = records.filter(function (row) {
-                    var date = new Date(row[year], row[month], row[day]);
+                    var date = new Date(row[year], row[month] - 1, row[day]);
                     var msecs = date.getTime();
                     return !isNaN(msecs);
                 });
                 
                 var result = dataset;
                 records.forEach(function (row) {
-                    var date = new Date(row[year], row[month], row[day]);
+                    var date = new Date(row[year], row[month] - 1, row[day]);
                     var msecs = date.getTime();
 
                     result[msecs] = result[msecs] || {};
@@ -129,14 +164,14 @@ angular.module('MashAcademy')
                     return row[sunny] && (row[sunny].indexOf("TRUE") >= 0 || row[sunny].indexOf("FALSE") >= 0);
                 });
                 records = records.filter(function (row) {
-                    var date = new Date(row[year], row[month], row[day]);
+                    var date = new Date(row[year], row[month] - 1, row[day]);
                     var msecs = date.getTime();
                     return !isNaN(msecs);
                 });
 
                 var result = dataset;
                 records.forEach(function (row) {
-                    var date = new Date(row[year], row[month], row[day]);
+                    var date = new Date(row[year], row[month] - 1, row[day]);
                     var msecs = date.getTime();
 
                     result[msecs] = result[msecs] || {};
@@ -150,7 +185,7 @@ angular.module('MashAcademy')
                     var location = nameMap[row[name]];
 
                     if (datum.Rainfall[location] > 2) {
-                        weatherLocations[location] = "Rainy";
+                        weatherLocations[location] = "Raining";
                     } else {
                         weatherLocations[location] = row[sunny].indexOf("TRUE") >= 0 ? "Sunny" : "Cloudy";
                     }
@@ -159,6 +194,89 @@ angular.module('MashAcademy')
                 return result;
 
             });
-        }
+        },
+        getMaxTemp: function () {
+            return maxTemp = maxTemp || $http.get('Data/TotalMaxTemp.csv').then(function (response) {
+                return response.data;
+            }).then(function (csvString) {
+                var records = csvString.split('\n');
+                var fields = records.shift().split(',');
+
+                var name = 0;
+                var year = 1;
+                var month = 2;
+                var day = 3;
+                var maxTemp = 4;
+
+                records = records.map(function (row) { return row.split(','); });
+                records = records.filter(function (row) {
+                    return !isNaN(parseInt(row[maxTemp]));
+                });
+                records = records.filter(function (row) {
+                    var date = new Date(row[year], row[month] - 1, row[day]);
+                    var msecs = date.getTime();
+                    return !isNaN(msecs);
+                });
+
+                var result = dataset;
+                records.forEach(function (row) {
+                    var date = new Date(row[year], row[month] - 1, row[day]);
+                    var msecs = date.getTime();
+
+                    result[msecs] = result[msecs] || {};
+                    var datum = result[msecs];
+
+                    datum.MaxTemp = datum.MaxTemp || {};
+
+                    var locations = datum.MaxTemp;
+                    var location = nameMap[row[name]];
+                    locations[location] = row[maxTemp];
+                });
+
+                return result;
+
+            });
+        },
+        getMinTemp: function () {
+            return minTemp = minTemp || $http.get('Data/TotalMinTemp.csv').then(function (response) {
+                return response.data;
+            }).then(function (csvString) {
+                var records = csvString.split('\n');
+                var fields = records.shift().split(',');
+
+                var name = 0;
+                var year = 1;
+                var month = 2;
+                var day = 3;
+                var minTemp = 4;
+
+                records = records.map(function (row) { return row.split(','); });
+                records = records.filter(function (row) {
+                    return !isNaN(parseInt(row[minTemp]));
+                });
+                records = records.filter(function (row) {
+                    var date = new Date(row[year], row[month] - 1, row[day]);
+                    var msecs = date.getTime();
+                    return !isNaN(msecs);
+                });
+
+                var result = dataset;
+                records.forEach(function (row) {
+                    var date = new Date(row[year], row[month] - 1, row[day]);
+                    var msecs = date.getTime();
+
+                    result[msecs] = result[msecs] || {};
+                    var datum = result[msecs];
+
+                    datum.MinTemp = datum.MinTemp || {};
+
+                    var locations = datum.MinTemp;
+                    var location = nameMap[row[name]];
+                    locations[location] = row[minTemp];
+                });
+
+                return result;
+            });
+        },
     }
 });
