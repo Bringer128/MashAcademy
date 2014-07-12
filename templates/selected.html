@@ -8,7 +8,8 @@
                 <div ng-repeat="dataset in selectedData" class="component-item">
 					<div class="control-wrapper">
 						<div class="icon">
-							<img ng-src="content/sun-clouds.png" class="icon dataset"/>
+							<img ng-if="dataset.name == 'Weather'" ng-src="content/cloud.svg" class="icon dataset"/>
+							<img ng-if="dataset.name == 'Temperature'" ng-src="content/thermometer.svg" class="icon dataset"/>
 						</div>
 						<p class="control-text">{{dataset.name}}</p>
 						<p class="control-remove" ng-click="remove(dataset)">×</p>

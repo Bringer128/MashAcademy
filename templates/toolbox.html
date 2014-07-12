@@ -4,7 +4,8 @@
 		<div class="box-content">
 			<div ng-repeat="dataset in data">
 				<div class="control-wrapper" draggable="true" title="{{dataset.name}}">
-					<img ng-src="{{dataset.icon}}" class="icon dataset" ng-class="{ thermometer: dataset.name == 'Temperature', weather: dataset.name == 'Weather' }" />
+					<img ng-src="{{dataset.icon}}" class="icon dataset" ng-class="{ thermometer: dataset.name == 'Temperature', weather: dataset.name == 'Weather' }" 
+						ng-style="{ 'margin-left': dataset.name == 'Temperature' ? '10px' : '9px' }" />
 					<p class="control-text">{{dataset.name}}</p>
 					<div style="clear:both"></div>
 				</div>

@@ -30,10 +30,21 @@
 		    <toolbox></toolbox>
             <selected></selected>
 		</div>
-		<div class="right-pane" ng-controller="DataCtrl">
-			<div ng-style="{ height: hasControl('Time') ? '80%' : '100%' }"><map ng-if="hasControl('Map')"></map></div>
-			<selector ng-if="hasControl('Time')" value="sliderValue" style="margin:400px 0 0 1000px"></selector>
-			
+		<div class="right-pane" ng-controller="DataCtrl">			
+			<div ng-style="{ width: hasControl('Time') ? '80%' : '100%' }" style="float:left;height:100%;">
+				<map ng-if="hasControl('Map')"></map>
+			</div>
+			<div ng-if="hasControl('Time')" style="width:20%;float:left;height:100%;">
+				<table style="height:100%;position:relative;margin:auto;">
+					<tr>
+						<td>
+							<div>
+								<selector value="sliderValue"></selector>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
             <!--<slider ng-if="hasControl('Time')" floor="{{minTime}}" ceiling="{{maxTime}}" step="86400000" ng-model="sliderValue" translate-fn="toDate"></slider>-->
 		</div>
 		<!-- Sorry, I only had time to do HTML table layout :) -->

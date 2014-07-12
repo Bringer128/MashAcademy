@@ -306,6 +306,8 @@ map {
 .thermometer {
 	padding-top:2px;
 	margin-top:13px;
+	height: 35px;
+	width: 36px;
 }
 
 .selected .empty-data-item {
@@ -490,7 +492,6 @@ slider span.bubble.limit {
 
 .day-selector {
 	font-size:24px;
-	margin:300px 0 0 1000px;
 }
 
 .middle-cell {
@@ -508,8 +509,19 @@ slider span.bubble.limit {
 	background:#CBFF48;
 	cursor:pointer;
 	border:transparent 2px solid;
+	height:50px;
+}
+
+.not-changeable {
+	background:rgba(203, 255, 72, 0.4);
 }
 
 .change-cell:hover {
 	border:#000 2px solid;
+}
+
+selector {
+	width:100%;
+	display:block;
+	height:129px;
 }

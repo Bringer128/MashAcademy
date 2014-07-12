@@ -1,19 +1,19 @@
 <div class="day-selector">
 	<table>
 		<tr>
-			<td class="change-cell" ng-click="nextMonth()" ng-show="isNextMonth()">▲</td>
+			<td class="change-cell selectionoff" ng-class="{ 'not-changeable': !isNextMonth() }"><div ng-click="nextMonth()" ng-show="isNextMonth()">▲</div></td>
 			<td class="middle-cell"></td>
-			<td class="change-cell" ng-click="nextDay()" ng-show="isNextDay()">▲</td>
+			<td class="change-cell selectionoff" ng-class="{ 'not-changeable': !isNextDay() }"><div ng-click="nextDay()" ng-show="isNextDay()">▲</div></td>
 		</tr>
 		<tr>
-			<td class="value-cell" style="width:130px;">{{ currentMonth }}</td>
+			<td class="value-cell selectionoff" style="width:170px;">{{ currentMonth }}</td>
 			<td></td>
-			<td class="value-cell" style="width:50px;">{{ currentDay }}</td>
+			<td class="value-cell selectionoff" style="width:50px;">{{ currentDay }}</td>
 		</tr>
 		<tr>
-			<td class="change-cell" ng-click="previousMonth()" ng-show="isPreviousMonth()">▼</td>
+			<td class="change-cell selectionoff" ng-class="{ 'not-changeable': !isPreviousMonth() }"><div ng-click="previousMonth()" ng-show="isPreviousMonth()">▼</div></td>
 			<td></td>
-			<td class="change-cell" ng-click="previousDay()" ng-show="isPreviousDay()">▼</td>
+			<td class="change-cell selectionoff" ng-class="{ 'not-changeable': !isPreviousDay() }"><div ng-click="previousDay()" ng-show="isPreviousDay()">▼</div></td>
 		</tr>
 	</table>
 </div>
