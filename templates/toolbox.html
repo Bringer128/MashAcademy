@@ -1,12 +1,15 @@
 <div class="toolbox">
     <div class="controls">
+        Controls:
         <div ng-repeat="control in controls">
 
         </div>
+        <div class="icon"><map></map></div>
     </div>
     <div class="data">
+        Data:
         <div ng-repeat="dataset in data">
-            <img ng-src="dataset.icon" alt="{{dataset.name}}"/>
+            <img ng-src="{{dataset.icon}}" title="{{dataset.name}}" class="icon"/>
         </div>
     </div>
 </div>
