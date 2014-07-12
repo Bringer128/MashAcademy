@@ -100,6 +100,10 @@ map {
     background-color:chartreuse;
 }
 
-    .selected .component-item {
-        background-color:lightcyan;
-    }
+.selected .component-item {
+    background-color:lightcyan;
+}
+
+.selected .empty-component-item {
+    background-color:#5F7A87;
+}
