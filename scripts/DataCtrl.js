@@ -1,6 +1,6 @@
 angular.module('MashAcademy')
 .controller('DataCtrl', function ($scope, $http, $timeout) {
-    
+
     $scope.temperatures = {
         "Perth": [
             ["2014-01-01", 10],
@@ -52,4 +52,48 @@ angular.module('MashAcademy')
             $scope.fireResize();
         });
     });
+})
+.factory('dataService', function ($http) {
+    
+    var nameMap = {
+        '9021': 'Perth',
+        '3003': 'Broome',
+        '14015': 'Darwin',
+        '31011': 'Cairns',
+        '40913': 'Brisbane',
+        '66037': 'Sydney',
+        '86282': 'Melbourne',
+        '23034': 'Adelaide',
+        '94029': 'Hobart'
+    };
+
+    var rainfall;
+
+    return {
+        getRainfall: function () {
+            return rainfall = rainfall || $http.get('Data/TotalRain.csv').then(function (response) {
+                return response.data;
+            }).then(function (csvString) {
+                var records = csvString.split('\n');
+                var fields = records.shift().split(',');
+
+                var name = 0;
+                var year = 1;
+                var month = 2;
+                var day = 3;
+                var rain = 4;
+
+                records = records.map(function (row) { return row.split(','); });
+                records = records.map(function (row) {
+                    var rowObj = {};
+                    rowObj.name = nameMap[row[name]] || 'Unknown id: ' + row[name];
+                    rowObj.date = new Date(row[year], row[month], row[day]);
+                    rowObj.value = row[rain];
+                    return rowObj;
+                });
+
+                return records;
+            });
+        }
+    }
 });

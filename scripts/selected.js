@@ -6,6 +6,7 @@ angular.module('MashAcademy')
         templateUrl: 'templates/selected.html',
         scope: false,
         link: function ($scope, $element, $attrs) {
+
             $scope.selectedData = [];
 
             $scope.selectedComponents = [];
