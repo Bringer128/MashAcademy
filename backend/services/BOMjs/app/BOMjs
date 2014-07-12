@@ -1,69 +1,27 @@
 #!/usr/bin/env node
-// @DEBUG //
-var debug = false; // Set to true to enable debuging
-	if (debug) console.log('DEBUG: Can you hear me? Are we alive? Is this the real life?');
 
 // @note -----
 // Please understand, this code was created by an amature. My team mates are much
 // better coders than me, but their skills were needed elsewhere. If you find errors,
 // feel free to let me know so that I can improve! -@d0vr
 
-
-/**************
- *   Config   *
- *************/
-
-
-/**** FTP Config *****/
-var BOMconfig = {
-	host: 		'ftp2.bom.gov.au', 	// 'ftp2.bom.gov.au'
-	port: 		 21, 				// 21
-	user: 		'anonymous', 		// 'anonymous'
-	password: 	'guest' 			// 'guest'
-};
-
-/**** General Settings *****/
-// @todo move dataDir to db another time (not during GovHack)
-var dataDir = 	'data/';
-var cacheDir = 	dataDir+'tmp/';
-
-	// @DEBUG // Any problems w/Config settings?
-	// @todo add err catching
-	if (debug) console.log('DEBUG: Config Settings Set');
-
-
-/**** Debug Options *****/
-var yr = new Date().getFullYear();
-var d = {
-	// What to debug?
-	'ftp' : true,
-	'cacheWritable' : false,
-
-	// Test directories and folders
-	'tp' : "anon/gen/clim_data/IDCKWCDEA0/tables/wa/perth_airport/", 	// Test Path (Perth Airport)
-	'tf' : 'perth_airport-'+yr+'01.csv' 	// Data for first month of current year @ Perth Airport
-}
-
-
 /**************
  *  Requires  *
  *************/
 
+// Config data
+var conf = require('./../config');
 
-// Filesystem
-var fs = require('fs');
+// @DEBUG  @todo add err catching
+	if (conf.debug) console.log('DEBUG: Config Settings Set'); // Any problems w/Config settings?
 
-// Connect to BOM FTP server
-var ftp = require('ftp');
+// Node Modules
+var fs 		= require('fs'); 						// Filesystem
+var ftp 	= require('ftp');						// Connect to BOM FTP server
+var c2jconv	= require("csvtojson").core.Converter;  // Enable BOM CSV to JSON
 
-// Enable BOM CSV to JSON
-var c2jconv	= require("csvtojson").core.Converter;
-
-
-	// @DEBUG // Did these modules load w/o problem?
-	// @todo Add err catching
-	if (debug) console.log('DEBUG: Required Modules Loaded');
-
+// @DEBUG // @todo Add err catching
+	if (conf.debug) console.log('DEBUG: Required Modules Loaded'); // Did these modules load w/o problem?
 
 /**************
  * Functions  *
@@ -73,14 +31,14 @@ var c2jconv	= require("csvtojson").core.Converter;
 // Retreive needed locations from filesystem
 // @todo upgrade to using database
 
-function getLocations() { location = JSON.parse(fs.readFileSync(dataDir+'locations.json', 'utf8')); }
+function getLocations() { location = JSON.parse(fs.readFileSync(conf.dir.data+'locations.json', 'utf8')); }
 
 // Retreive needed dataTypes from filesystem
 // @todo upgrade to using database
 
 function getDataTypes() { 
 	// create measured variables
-	var v = {
+	v = {
 		'maxT':{
 			'file':'max-temp.json',
 			'data':{}
@@ -137,14 +95,14 @@ function jsonData(act) {
 	if (act=='load') {
 		for (var i in v) {
 			// @todo add error handling
-			v[i].data = JSON.parse(fs.readFileSync(dataDir+'json/'+v[i].file, 'utf8'));
+			v[i].data = JSON.parse(fs.readFileSync(conf.dir.data+'json/'+v[i].file, 'utf8'));
 		}
 
 	// Save modified json objects to storage
 	} else if (act=='save') {
 		for (var i in v) {
 			// @todo add error handling
-			fs.writeFile(dataDir+'json/'+v[i].file, JSON.stringify(v[i].data), function(err) {
+			fs.writeFile(conf.dir.data+'json/'+v[i].file, JSON.stringify(v[i].data), function(err) {
 				if(err) { console.log(err); }
 			}); 
 		}	
@@ -171,6 +129,16 @@ function initFTP() {
 	c2j = new c2jconv(param);
 }
 
+/********************
+ * BOM CSV to JSON
+ *
+ * returns object from csv data
+ *
+ */
+
+function bom2json(data) {
+
+}
 
 /********************
  * Get FTP Data
@@ -178,7 +146,7 @@ function initFTP() {
 
 function getFtp () {
 bom.on('ready', function() {
-	bom.get(d.tp+d.tf, function(err, stream) {
+	bom.get(conf.d.tp+conf.d.tf, function(err, stream) {
 	if (err) throw err;
 		stream.once('close', function() { bom.end(); });
 		stream.pipe(fs.createWriteStream('tmp'));
@@ -231,7 +199,6 @@ function initRun() {
 	for (var loc in location) {
 		console.log(location[loc].stnName);
 	}
-
 }
 
 /********************
@@ -246,7 +213,7 @@ function initRun() {
 function clean(save) {
 	// Santise data here? Dunno.
 	jsonData('save');
-	jsonData('parse');
+	// jsonData('parse');
 	//Delete the scripts cache
 }
 
@@ -258,9 +225,8 @@ function clean(save) {
 
 function exit() {
 	clean();
-	// Die gracefully.
+	// @todo Die gracefully.
 }
-
 
 
 /**************
@@ -273,15 +239,12 @@ var c2j;
 var location;
 var v;
 
-// Get locations and existing data
-init();
+/******* Functions ********/
+init(); // Get locations and existing data
+initRun(); // Establish FTP connection and update data
 
-// Establish FTP connection and update data
-initRun();
-
-// Clean up loose ends and tmp file etc. Save json data
-exit(); // Change to clean(); when able to run script as a service
-
+exit(); // Clean up loose ends and tmp file etc. Save json data
+// @todo Change to clean(); when able to run script as a service
 
 
 /**************
@@ -290,14 +253,9 @@ exit(); // Change to clean(); when able to run script as a service
 
 
 
-
 for (var i in v) {
 	console.log(v[i].data);
 }
-
-// initFTP();
-// getFtpData();
-
 
 // This is how to get date in number format!!
 // var date = Date.parse("2014-07-12");

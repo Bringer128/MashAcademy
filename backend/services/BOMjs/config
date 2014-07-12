@@ -1,0 +1,31 @@
+
+/**************
+ *   Config   *
+ *************/
+
+// Set to true to enable debuging
+exports.debug = false; 
+
+// FTP Config
+exports.bom = { 
+	'host': 	'ftp2.bom.gov.au', 	// 'ftp2.bom.gov.au'
+	'port': 	 21, 				// 21
+	'user': 	'anonymous', 		// 'anonymous'
+	'password': 'guest' 			// 'guest'
+};
+
+exports.dir = { // Directory locations
+	'data' 	: 	'data/',
+	'cache' : 	'data/tmp/'
+}
+
+// Enable debug for?
+var yr = new Date().getFullYear(); // Don't delete
+exports.d = {
+	'ftp' 			: true,
+	'cacheWritable' : false,
+
+	// Test directories and folders
+	'tp' : "anon/gen/clim_data/IDCKWCDEA0/tables/wa/perth_airport/", 	// Hard Coded Test Path (Perth Airport)
+	'tf' : 'perth_airport-'+yr+'01.csv' 	// Data for first month of current year @ Perth Airport
+}
