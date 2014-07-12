@@ -7,16 +7,28 @@ angular.module('MashAcademy')
     scope: { 'simpleMap': '@' },
 	link: function($scope, $element, $attrs) {
 	
+		var temperatureData = [
+			{ name: 'Sydney', minTemp: 4, maxTemp: 32 },
+			{ name: 'Melbourne', minTemp: 2, maxTemp: 32 },
+			{ name: 'Brisbane', minTemp: 2, maxTemp: 32 },
+			{ name: 'Perth', minTemp: 14, maxTemp: 39 },
+			{ name: 'Adelaide', minTemp: 4, maxTemp: 38 },
+			{ name: 'Hobart', minTemp: 7, maxTemp: 35 },
+			{ name: 'Darwin', minTemp: 7, maxTemp: 28 },
+			{ name: 'Cairns', minTemp: 8, maxTemp: 27 },
+			{ name: 'Broome', minTemp: 6, maxTemp: 26 },
+		]
+	
 		var weatherData = [
-			{ name: 'Sydney', weather: 'Sunny', minTemp: 4, maxTemp: 32 },
-			{ name: 'Melbourne', weather: 'Cloudy', minTemp: 2, maxTemp: 32 },
-			{ name: 'Brisbane', weather: 'Cloudy', minTemp: 2, maxTemp: 32 },
-			{ name: 'Perth', weather: 'Raining', minTemp: 14, maxTemp: 39 },
-			{ name: 'Adelaide', weather: 'Sunny', minTemp: 4, maxTemp: 38 },
-			{ name: 'Hobart', weather: 'Cloudy', minTemp: 7, maxTemp: 35 },
-			{ name: 'Darwin', weather: 'Raining', minTemp: 7, maxTemp: 28 },
-			{ name: 'Cairns', weather: 'Sunny', minTemp: 8, maxTemp: 27 },
-			{ name: 'Broome', weather: 'Sunny', minTemp: 6, maxTemp: 26 },
+			{ name: 'Sydney', weather: 'Sunny' },
+			{ name: 'Melbourne', weather: 'Cloudy' },
+			{ name: 'Brisbane', weather: 'Cloudy' },
+			{ name: 'Perth', weather: 'Raining' },
+			{ name: 'Adelaide', weather: 'Sunny' },
+			{ name: 'Hobart', weather: 'Cloudy' },
+			{ name: 'Darwin', weather: 'Raining' },
+			{ name: 'Cairns', weather: 'Sunny' },
+			{ name: 'Broome', weather: 'Sunny' },
 		]
 	
 		$scope.cities = [
@@ -32,6 +44,7 @@ angular.module('MashAcademy')
 		];
 		
 		addDataToCities($scope.cities, weatherData);
+		addDataToCities($scope.cities, temperatureData);
 		
 		function addDataToCities(cities, data) {
 			data.forEach(function(datum) {

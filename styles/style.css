@@ -13,13 +13,19 @@ body {
 	box-sizing: border-box;
 }
 
+button:focus {outline:0;}
+
 .top-pane {
 	width:100%;
 	height:10%;
 	float:left;
 	text-align:center;
+}
+
+.title {
 	color:white;
-	font-size:24px;
+	font-size:36px;
+	margin:auto auto;
 }
 
 .left-pane {
@@ -37,30 +43,91 @@ body {
 }
 
 .bottom-pane {
+	float:left;
 	width:100%;
 	height:15%;
-	float:left;
 }
 
 .back-button {
-	float:left;
 	height:100%;
-	width:10%;
+	width:100%;
 	background: #CBFF48;
+	border-radius:10px;
+	font-size:44px;
+	font-weight:bold;
+	text-align:center;
+	cursor:pointer;
+}
+
+.back-button:hover {
+	border:#000 3px solid;
+}
+
+.back-button:active {
+	opacity:0.8;
 }
 
 .next-button {
-	float:right;
+	float:left;
 	height:100%;
-	width:10%;
+	width:100%;
 	background: #CBFF48;
+	border-radius:10px;
+	font-size:44px;
+	font-weight:bold;
+	text-align:center;
+	cursor:pointer;
+}
+
+.next-button:hover {
+	border:#000 3px solid;
+}
+
+.next-button:active {
+	opacity:0.8;
+}
+
+.back-button-cell {
+	width:15%;
+	padding:20px;
+}
+
+.bottom-center-cell {
+	width:70%;
+	position:relative;
+}
+
+.next-button-cell {
+	width:15%;
+	padding:20px;
 }
 
 .question-answer-area {
-	float:left;
 	color:white;
-	width:80%;
+	width:100%;
 	text-align:center;
+}
+
+.question-answer-area p {
+	margin-top: 3px;
+	margin-bottom: 10px;
+}
+
+.answer-area {
+	position:relative;
+	width:508px;
+	margin:0 auto;
+}
+
+.error-area {
+	width:100%;
+	height:71px;
+	position:absolute;
+	background:rgb(41, 59, 71);
+	top:0;
+	left:0;
+	border-radius:10px;
+	border:rgba(255,0,0,0.5) 2px solid;
 }
 
 map {
@@ -103,6 +170,8 @@ map {
 	color:white;
 	border-radius:5px 0px 0px 0px;	
     border: 2px rgba(255, 255, 255, 0.96) solid;
+    border-left: 0px;
+    border-right: 0px;
 }
 
 .city-name {
@@ -114,6 +183,7 @@ map {
 	border-radius:0px 0px 5px 0px;
     border: 2px rgba(255, 255, 255, 0.96) solid;
     border-left: 0px;
+    border-right: 0px;
 }
 
 .weather-data img {
@@ -122,9 +192,16 @@ map {
 	margin-left:calc(50% - 20px);
 }
 
+.data-container .block:first-of-type {
+    border-left: 2px;
+}
+
+.data-container .block:last-of-type {
+    border-right: 2px;
+}
+
 .selected {
     width:100%;
-    height:100%;
 }
 
 .selected .data {
@@ -154,4 +231,50 @@ map {
 
 .selected .empty-component-item {
     background-color:#5F7A87;
+}
+
+.question {
+	font-size:21px;
+}
+
+.answer-text-box {
+	font-size:36px;
+	padding:10px 20px;
+	background:rgba(255,255,255, 0.3);
+	border-radius:10px;
+	border:0;
+	border:transparent 3px solid;
+	outline:none;
+	color:white;
+}
+
+.answer-text-box:active {
+	outline:none;
+}
+
+.answer-button {
+	font-size:36px;
+	padding:10px 20px;
+	background: #CBFF48;
+	border:0;
+	border-radius:10px;
+	cursor:pointer;
+	border:transparent 3px solid;
+}
+
+.answer-button:hover {
+	border:#000 3px solid;
+}
+
+.answer-button:active {
+	opacity:0.8;
+}
+
+.selectionoff {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }

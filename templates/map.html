@@ -2,12 +2,12 @@
 <div ng-if="!simpleMap">
 	<div class="data-window" ng-repeat="city in cities" ng-style="{ 'top': city.top, 'left': city.left }">
 		<div class="data-container">
-			<p class="weather-data">
+			<p class="weather-data" ng-if="city.weather">
 				<img ng-if="city.weather == 'Sunny'" src="http://localhost:8080/MashAcademy/content/sun.svg" />
 				<img ng-if="city.weather == 'Cloudy'" src="http://localhost:8080/MashAcademy/content/clouds.svg" />
 				<img ng-if="city.weather == 'Raining'" src="http://localhost:8080/MashAcademy/content/raining.svg" />
 			</p>
-			<p class="temp-data">{{ city.minTemp }}°c / {{ city.maxTemp }}°c</p>
+			<p class="temp-data" ng-if="city.minTemp">{{ city.minTemp }}°c / {{ city.maxTemp }}°c</p>
 			<p class="city-name">{{ city.name }}</p>
 		</div>
 	</div>
