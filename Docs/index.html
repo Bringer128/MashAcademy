@@ -1,0 +1,126 @@
+<html>
+    <head>
+        <script src="angular.js"></script>
+                <style type"text/css">
+            html {
+                height: 100%;
+            }
+
+            body {
+                background: #293B47;
+                font-family: 'Open Sans', sans-serif;
+                margin: 0;
+                height: 100%;
+            }
+
+            * {
+	            box-sizing: border-box;
+            }
+
+            .top-pane {
+                width: 100%;
+                height: 8%;
+                float: left;
+                text-align: center;
+            }
+            
+            .side-cell {
+	            width:30%;
+            }
+
+            .title {
+	            color:white;
+	            margin:auto auto;
+            }
+            
+            .title img {
+	            height:42px;
+            }
+
+.splash {
+	/*position:absolute;*/
+	top:0;
+	left:0;
+	width:100%;
+	/*height:100%;*/
+	transform-origin:100% 50%;
+}
+
+.top-splash {
+	width:100%;
+	background: #293B47;
+	text-align:center;
+}
+.thebuttons {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #ededed), color-stop(1, #dfdfdf) );
+	background:-moz-linear-gradient( center top, #ededed 5%, #dfdfdf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ededed', endColorstr='#dfdfdf');
+	background-color:#ededed;
+	-webkit-border-top-left-radius:6px;
+	-moz-border-radius-topleft:6px;
+	border-top-left-radius:6px;
+	-webkit-border-top-right-radius:6px;
+	-moz-border-radius-topright:6px;
+	border-top-right-radius:6px;
+	-webkit-border-bottom-right-radius:6px;
+	-moz-border-radius-bottomright:6px;
+	border-bottom-right-radius:6px;
+	-webkit-border-bottom-left-radius:6px;
+	-moz-border-radius-bottomleft:6px;
+	border-bottom-left-radius:6px;
+	text-indent:0;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#777777;
+	font-family:arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:50px;
+	line-height:50px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #ffffff;
+}
+.thebuttons:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #dfdfdf), color-stop(1, #ededed) );
+	background:-moz-linear-gradient( center top, #dfdfdf 5%, #ededed 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dfdfdf', endColorstr='#ededed');
+	background-color:#dfdfdf;
+}
+            .thebuttons:active {
+                position: relative;
+                top: 1px;
+            }
+ /* This button was generated using CSSButtonGenerator.com */
+        </style>
+
+        <script type="text/javascript">
+            angular.module('MashDocs', []).controller('MashDocs', function ($scope, $http) {
+                $http.get('panelTemplates/fileList.json').then(function (response) {
+                    var files = response.data.files;
+                    $scope.templates = files;
+                });
+
+                $scope.container = {};
+            });
+        </script>
+    </head>
+    <body ng-app="MashDocs" ng-controller="MashDocs">
+		<div class="splash">
+            <img src="logo.png" style="margin:auto;display:block;" />
+        </div>
+        <div style="padding-top:50px;">
+            <div style="float:left;width:30%;">
+                <button style="display:block;" class="thebuttons" ng-repeat="template in templates track by template.buttonText" ng-click="container.url = template.url">{{template.buttonText}}</button>
+            </div>
+            <div style="float:left;width:70%;">
+                <div ng-include="container.url"></div>
+            </div>
+        </div>
+    </body>
+</html>

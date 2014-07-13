@@ -1,0 +1,7 @@
+{ "files": [{
+	"buttonText": "Button1",
+	"url": "panelTemplates/panel1.html"
+}, {
+	"buttonText": "Button2",
+	"url": "panelTemplates/panel2.html"
+}]}
