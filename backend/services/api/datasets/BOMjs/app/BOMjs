@@ -31,7 +31,7 @@ var c2jconv	= require("csvtojson").core.Converter;  // Enable BOM CSV to JSON
 // Retreive needed locations from filesystem
 // @todo upgrade to using database
 
-function getLocations() { location = JSON.parse(fs.readFileSync(conf.dir.data+'locations.json', 'utf8')); }
+function getLocations() { location = JSON.parse(fs.readFileSync('models/locations', 'utf8')); }
 
 // Retreive needed dataTypes from filesystem
 // @todo upgrade to using database

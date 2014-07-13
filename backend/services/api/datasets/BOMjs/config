@@ -15,8 +15,10 @@ exports.bom = {
 };
 
 exports.dir = { // Directory locations
-	'data' 	: 	'data/',
-	'cache' : 	'data/tmp/'
+	'data' : 	'data/',
+	'cache' : 	'cache/',
+	'raw' : 	'data/raw/',
+	'output' : 	'data/output/'
 }
 
 // Enable debug for?

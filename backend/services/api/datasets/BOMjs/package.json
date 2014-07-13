@@ -1,0 +1,24 @@
+{
+	"name": "BOMjs",
+	"description": "A tool for downloading and aggregating weather statistics provided by the Australian B.O.M.",
+	"author": {
+		"name": "Benjamin Jennings",
+		"email": "ben@d0vr.com"
+	},
+	"homepage": "http://foo.bar/",
+	"bugs": "https://github.com/mashacademy/datasets/bom/issues",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Keyang/node-csvtojson.git"
+	},
+	"contributors": [
+		{
+			"name": "Keyang Xiang",
+			"email": "keyang.xiang@gmail.com"
+		}
+	],
+	"version": "0.0.0",
+	"keywords": [],
+	"readme": "",
+	"readmeFilename": "readme.md",
+}

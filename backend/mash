@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+console.log('\nMash Academy is not ready for primetime at the moment.\nThank you, please come again!\n');
+
+/************
+ * 
+ *   This script will be used to boot the Mash Academy Application, API, DB's and other services.
+ *
+ *   This script will simply be used as an interface to the other scripts.
+ *
+ *   This script should be able to be terminated w/o affecting the other required services
+ *
+ */
