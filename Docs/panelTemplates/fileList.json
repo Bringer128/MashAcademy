@@ -1,7 +1,10 @@
 { "files": [{
-	"buttonText": "Button1",
-	"url": "panelTemplates/panel1.html"
+	"buttonText": "General Usage",
+	"url": "panelTemplates/general.html"
 }, {
-	"buttonText": "Button2",
-	"url": "panelTemplates/panel2.html"
+	"buttonText": "API Usage",
+	"url": "panelTemplates/api.html"
+}, {
+	"buttonText": "Future Features",
+	"url": "panelTemplates/future.html"
 }]}

@@ -1,6 +1,6 @@
 <html>
     <head>
-		<title>Mash Academy</title>
+		<title>Mash Academy: V.0 Documentation</title>
         <script src="angular.js"></script>
                 <style type"text/css">
             html {
@@ -156,9 +156,10 @@
 			<div style="float:left;width:30%;">
                 <button style="display:block;" class="thebuttons" ng-repeat="template in templates track by template.buttonText" ng-click="container.url = template.url">{{template.buttonText}}</button>
             </div>
-            <div style="float:left;width:70%;">
+            <div style="float:right;width:70%;">
                 <div ng-include="container.url"></div>
             </div>
+            <div style="clear:both;"></div>
 		</div>
 		
         <div>
