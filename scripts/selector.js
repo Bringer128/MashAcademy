@@ -4,7 +4,6 @@ angular.module('MashAcademy')
 	restrict: 'E',
 	templateUrl: 'templates/selector.html',
 	replace: false,
-	scope: { value:'=' },
 	link: function($scope, $element, $attrs) {
 		$scope.months = [
 			'January',
@@ -22,9 +21,10 @@ angular.module('MashAcademy')
 		];
 		
 		$scope.currentMonthIndex = 0;
+		$scope.currentDayIndex = 0;
 		$scope.currentMonth = $scope.months[$scope.currentMonthIndex];
 		
-		$scope.value = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
+		$scope.slider.sliderValue = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
 		
 		$scope.isNextMonth = function() {
 			return $scope.currentMonthIndex < $scope.months.length - 1;
@@ -37,13 +37,13 @@ angular.module('MashAcademy')
 		$scope.nextMonth = function() {
 			$scope.currentMonthIndex++;
 			$scope.currentMonth = $scope.months[$scope.currentMonthIndex];
-			$scope.value = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
+			$scope.slider.sliderValue = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
 		}
 		
 		$scope.previousMonth = function() {
 			$scope.currentMonthIndex--;
 			$scope.currentMonth = $scope.months[$scope.currentMonthIndex];
-			$scope.value = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
+			$scope.slider.sliderValue = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
 		}
 		
 		$scope.days = [
@@ -80,7 +80,6 @@ angular.module('MashAcademy')
 			31
 		];
 		
-		$scope.currentDayIndex = 0;
 		$scope.currentDay = $scope.days[$scope.currentDayIndex];
 		
 		$scope.isNextDay = function() {
@@ -94,13 +93,13 @@ angular.module('MashAcademy')
 		$scope.nextDay = function() {
 			$scope.currentDayIndex++;
 			$scope.currentDay = $scope.days[$scope.currentDayIndex];
-			$scope.value = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
+			$scope.slider.sliderValue = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
 		}
 		
 		$scope.previousDay = function() {
 			$scope.currentDayIndex--;
 			$scope.currentDay = $scope.days[$scope.currentDayIndex];
-			$scope.value = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
+			$scope.slider.sliderValue = new Date(2014, $scope.currentMonthIndex, $scope.currentDayIndex + 1);
 		}
 	}
 }}]);

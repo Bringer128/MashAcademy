@@ -29,7 +29,7 @@ angular.module('MashAcademy')
         if (!$scope.datasets) return null;
         if (!$scope.slider.sliderValue) return null;
         
-        return $scope.datasets[$scope.slider.sliderValue];
+        return $scope.datasets[$scope.slider.sliderValue.getTime()];
     }
 
     $scope.currentMin = function (name) {

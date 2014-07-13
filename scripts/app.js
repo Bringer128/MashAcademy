@@ -1,6 +1,7 @@
 var mashAcademy = angular.module('MashAcademy', ['vr.directives.slider'])
 .controller('MashAcademy', function($rootScope, $scope, $timeout) {
 	$rootScope.showHelper = true;
+	$rootScope.slider = { sliderValue: new Date(2014, 0, 1) };
 
 	$scope.questions = [
 		{ question: 'What was the MINIMUM TEMPERATURE in Broome on the 18th June 2014?', answer: 8.3, type: 'text', marker: markTextQuestion, hint: 'Try using the temperature data and putting it on the map!', passed: false },
