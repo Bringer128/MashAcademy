@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="styles/style.css">
 		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 	</head>
-	<body ng-app="MashAcademy" ng-controller="MashAcademy">
+	<body ng-app="MashAcademy" ng-controller="MashAcademy">	
 		<table class="top-pane">
 			<tr>
 				<td>
@@ -92,6 +92,19 @@
 		<div class="helper" ng-if="showHelper">
 			<img class="helper-arrow" src="content/large-arrow.svg" />
 			<p class="helper-text">Click and drag data and controls into the workshop</p>
+		</div>
+		
+		<div class="splash">
+			<table class="top-splash">
+				<tr>
+					<td>
+						<img src="content/logo.png" style="margin-top:10%" />
+					</td>
+				</tr>
+			</table>
+			<div class="bottom-splash">
+				<input class="student-text-box" type="text" ng-model="studentName" placeholder="Hey, please enter your name!" style="width:600px;text-align:center;" />
+			</div>
 		</div>
 	</body>
 </html>
