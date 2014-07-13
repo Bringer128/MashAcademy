@@ -1,13 +1,15 @@
 angular.module('MashAcademy')
 .controller('DataCtrl', function ($scope, $http, $timeout, dataService) {
 
-    dataService.getRainfall();
+    var promise = dataService.getRainfall();
     dataService.getMaxTemp();
     dataService.getMinTemp();
-    dataService.getSolar().then(function (data) {
-        $scope.datasets = data;
+    promise.then(function () {
+        dataService.getSolar().then(function (data) {
+            $scope.datasets = data;
 
-        $scope.times = Object.keys(data).map(function (e) { return parseInt(e); });
+            $scope.times = Object.keys(data).map(function (e) { return parseInt(e); });
+        });
     });
 
     function toObjectWithNameEqual(name) {
