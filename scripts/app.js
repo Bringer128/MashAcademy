@@ -12,8 +12,13 @@ var mashAcademy = angular.module('MashAcademy', ['vr.directives.slider'])
 		$('.splash').velocity({ 
 			translateY: "-200%",
 			top:0
-		}, { duration: 1000 });
+		}, { 
+			duration: 1000,
+			complete: function(elements) { $('.answer-text-box').velocity("callout.pulse"); }
+		});
 	};
+	
+	$('.splash input').velocity("callout.pulse");
 	
 	$scope.questions = [
 		{ question: 'What was the MINIMUM TEMPERATURE in Broome on the 18th June 2014?', answer: 8.3, type: 'text', marker: markTextQuestion, hint: 'Try using the temperature data and putting it on the map!', passed: false },
