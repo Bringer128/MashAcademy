@@ -8,6 +8,6 @@ Hacked together over a weekend, we hope that this tool could be used as inspirat
 See the project page at: http://hackerspace.govhack.org/content/mash-academy
 
 Many thanks to:
-AngularJS
-D3.js
-Bureau of Meteorology weather data
+-AngularJS
+-D3.js
+-Bureau of Meteorology weather data
