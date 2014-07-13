@@ -1,7 +1,7 @@
 MashAcademy
 ===========
 
-See a demo at http://hackr.academy/
+See a demo at http://www.hackr.academy/
 
 A proof of concept website developed for GovHack Perth 2014 for getting kids interested in mashing and hacking data.
 
