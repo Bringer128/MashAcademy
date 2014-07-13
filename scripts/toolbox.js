@@ -36,12 +36,15 @@ angular.module('MashAcademy')
 
 	        e.dataTransfer.setData('dragItem', JSON.stringify(data));
 			
+			$rootScope.showDragHelper = true;
 			$rootScope.showHelper = false;
 	    };
 
 	    $scope.handleDragEnd = function (e) {
 	        console.log("handleDragEnd");
 	        this.style.opacity = '1.0';
+			$rootScope.showDragHelper = false;
+                $rootScope.$apply();
 	    };
 	}
   };

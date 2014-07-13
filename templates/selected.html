@@ -1,6 +1,8 @@
 <div class="selected" droppable>
 	<p class="box-header">Workshop</p>
     
+	<p class="workshop-helper-text" ng-if="showDragHelper">Drag into here!</p>
+	
     <div style="width:80%;border-radius:25px;margin-left:20px;position:relative;" class="data" ng-if="selectedData.length > 0">
         <div class="selected-header" style="position:relative;top:10px;right:30px;">Data</div>
         <div style="width:110%;">
@@ -21,6 +23,7 @@
     <div style="width:80%;border-radius:25px;margin-left:20px;position:relative;" class="components" ng-if="selectedComponents.length > 0">
         <div class="selected-header" style="position:relative;top:10px;right:30px;">Controls</div>
         <div style="width:110%">
+			
             <div style="padding-top:0px;padding-bottom:5px;padding-left:0px;margin-left:15px;margin-top:20px;margin-bottom:20px">
                 <div ng-repeat="component in selectedComponents" class="component-item">
 					<div style="clear:both"></div>

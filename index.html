@@ -9,6 +9,7 @@
         <script src="lib/angular-touch.js"></script>
         <script src="lib/angular-slider.js"></script>
         <script src="lib/moment.js"></script>
+        <script src="lib/velocity.js"></script>
 		<script src="scripts/app.js"></script>
 		<script src="scripts/map.js"></script>
         <script src="scripts/toolbox.js"></script>
@@ -21,8 +22,13 @@
 	<body ng-app="MashAcademy" ng-controller="MashAcademy">	
 		<table class="top-pane">
 			<tr>
+				<td class="side-cell">
+				</td>
 				<td>
 					<div class="title"><img src="content/logo.png" /></div>
+				</td>
+				<td class="side-cell">
+					<div class="name-area">{{ studentName }}</div>
 				</td>
 			</tr>
 		</table>
@@ -98,12 +104,14 @@
 			<table class="top-splash">
 				<tr>
 					<td>
-						<img src="content/logo.png" style="margin-top:10%" />
+						<img src="content/logo.png" style="margin:-10% auto 2% auto;display:block;" />
+						<input class="student-text-box" type="text" ng-model="name" placeholder="Hey, please enter your name!" style="width:600px;text-align:center;" />
+						<button class="student-button selectionoff" ng-click="logIn(name)" ng-class="{ 'valid': name }">OK</button>
 					</td>
 				</tr>
 			</table>
 			<div class="bottom-splash">
-				<input class="student-text-box" type="text" ng-model="studentName" placeholder="Hey, please enter your name!" style="width:600px;text-align:center;" />
+				
 			</div>
 		</div>
 	</body>
